@@ -5,21 +5,23 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/entities/user.entity';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { join } from 'path';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { typeormConfig } from './config/typeorm.config';
 
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: '.env',
-    }),
-
+    ConfigModule.forRoot({isGlobal:true}),
+     TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject:[ConfigService],
+      useFactory:typeormConfig, }),
+    
     MailerModule.forRoot({
       transport: {
         host: 'smtp.gmail.com',
@@ -42,16 +44,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
       },
     }),
     
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: '',
-      database: 'db-conge',
-      entities: [User],
-      synchronize: true,
-    }),
+   
      AuthModule, UsersModule],
   controllers: [AppController],
   providers: [
