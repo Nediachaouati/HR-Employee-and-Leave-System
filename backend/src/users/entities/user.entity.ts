@@ -1,5 +1,6 @@
+import { DemandConge } from "src/demand-conge/entities/demand-conge.entity";
 import { Role } from "src/role.enum";
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class User {
@@ -21,6 +22,9 @@ export class User {
        
     })
     role: Role; 
+
+    @OneToMany(() => DemandConge, (demand) => demand.user)
+    leaveRequests: DemandConge[];
 
     @CreateDateColumn()
     created_at:Date;

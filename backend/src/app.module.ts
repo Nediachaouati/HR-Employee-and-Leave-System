@@ -12,6 +12,7 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 import { join } from 'path';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { typeormConfig } from './config/typeorm.config';
+import { DemandCongeModule } from './demand-conge/demand-conge.module';
 
 
 @Module({
@@ -45,7 +46,7 @@ import { typeormConfig } from './config/typeorm.config';
     }),
     
    
-     AuthModule, UsersModule],
+     AuthModule, UsersModule, DemandCongeModule],
   controllers: [AppController],
   providers: [
     AppService,{
