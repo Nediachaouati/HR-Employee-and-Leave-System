@@ -14,6 +14,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { typeormConfig } from './config/typeorm.config';
 import { DemandCongeModule } from './demand-conge/demand-conge.module';
 import { PerformanceEvaluationModule } from './performance-evaluation/performance-evaluation.module';
+import { TimesheetModule } from './timesheet/timesheet.module';
 
 @Module({
   imports: [
@@ -46,7 +47,7 @@ import { PerformanceEvaluationModule } from './performance-evaluation/performanc
     }),
     
    
-     AuthModule, UsersModule, DemandCongeModule, PerformanceEvaluationModule],
+     AuthModule, UsersModule, DemandCongeModule, PerformanceEvaluationModule, TimesheetModule],
   controllers: [AppController],
   providers: [
     AppService,{
