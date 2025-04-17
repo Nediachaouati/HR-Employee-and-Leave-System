@@ -13,7 +13,7 @@ import { join } from 'path';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { typeormConfig } from './config/typeorm.config';
 import { DemandCongeModule } from './demand-conge/demand-conge.module';
-
+import { PerformanceEvaluationModule } from './performance-evaluation/performance-evaluation.module';
 
 @Module({
   imports: [
@@ -46,7 +46,7 @@ import { DemandCongeModule } from './demand-conge/demand-conge.module';
     }),
     
    
-     AuthModule, UsersModule, DemandCongeModule],
+     AuthModule, UsersModule, DemandCongeModule, PerformanceEvaluationModule],
   controllers: [AppController],
   providers: [
     AppService,{
