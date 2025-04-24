@@ -1,1 +1,18 @@
-<p>login works!</p>
+<div class="d-flex align-items-center justify-content-center min-vh-100" style="margin-top: -4%;">
+  <form class="form-signin w-50"  (ngSubmit)="login()">
+    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+
+    <div class="form-floating">
+      <input type="email" [(ngModel)]="user.email" class="form-control w-100"  id="email" name="email"  placeholder="name@example.com">
+      <label for="floatingInput">Email address</label>
+    </div><br>
+    <div class="form-floating">
+      <input type="password" [(ngModel)]="user.password" placeholder="Password" class="form-control w-100" id="password" name="password">
+      <label for="floatingPassword">Password</label>
+    </div>
+
+    <br>
+    <button type="submit" class="btn btn-primary w-100 py-2">Sign in</button>
+    <p class="mt-5 mb-3 text-body-secondary">© 2024 - 2025</p>
+  </form>
+</div>
