@@ -82,7 +82,11 @@ async createWithRole(dto: CreateUserDto, role: Role): Promise<{ user: User; plai
   delete newUser.password; 
   return { user: newUser, plainPassword: password }; 
 }
-
+async updateProfile(userId: number, updateUserDto: UpdateUserDto): Promise<User> {
+  const user = await this.findOneById(userId); // Optional: to ensure user exists
+  Object.assign(user, updateUserDto);
+  return await this.usersRepository.save(user);
+}
   // rh delete employe
   async delete(id: number, requesterRole?: Role): Promise<void> {
     const user = await this.usersRepository.findOne({ where: { id } });

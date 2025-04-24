@@ -51,7 +51,11 @@ export class UsersController {
     const updatedEmployee = await this.usersService.updateEmployee(+id, updateUserDto, currentUser.role);
     return updatedEmployee;
   }
-
+  @UseGuards(JwtAuthGuard)
+  @Put('profile')
+  async updateProfile(@CurrentUser() user: User, @Body() updateUserDto: UpdateUserDto) {
+    return this.usersService.updateProfile(user.id, updateUserDto);
+  }
   // admin add RH 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN)
