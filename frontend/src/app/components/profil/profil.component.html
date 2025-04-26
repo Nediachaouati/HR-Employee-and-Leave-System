@@ -1,0 +1,44 @@
+<div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+        <!-- Left Section: Profile Picture and Basic Info -->
+        <div class="col-md-3 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                <img class="rounded-circle mt-5" width="150px" [src]="user.photo || 'https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg'" alt="Profile Picture">
+                <span class="font-weight-bold">{{ user.name }}</span>
+                <span class="text-black-50">{{ user.email }}</span><br><br>
+                <button class="btn profile-button me-2" type="button" [routerLink]="'/change-password'">Changer mot de passe</button>
+            </div>
+        </div>
+
+        <!-- Middle Section: Personal Information -->
+        <div class="col-md-6 border-right">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-right">Profile Settings</h4>
+                </div>
+                
+                <!-- Use ngForm for Angular form handling -->
+                <form #profileForm="ngForm" (ngSubmit)="updateProfile(profileForm)">
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <label class="labels">Name</label>
+                            <input type="text" class="form-control" name="name" [(ngModel)]="user.name" placeholder="Name" [disabled]="isEditing" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="labels">Email</label>
+                            <input type="email" class="form-control" name="email" [(ngModel)]="user.email" placeholder="Email" [disabled]="isEditing" required>
+                        </div>
+                    </div>
+
+                    <div class="mt-5 text-center">
+                        <button class="btn profile-button me-2" type="submit" [disabled]="isEditing">Save Profile</button>
+                        <button class="btn profile-button me-2" type="button" (click)="toggleEdit()">Edit Profile</button>
+                        <div *ngIf="isEditing" class="text-danger mt-2">
+                            You need to click "Edit" to enable changes and save modifications.
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
