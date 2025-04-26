@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { ProfilComponent } from './components/profil/profil.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { DemandeCongeComponent } from './components/demande-conge/demande-conge.component';
+import { ListLeaveComponent } from './components/list-leave/list-leave.component';
 
 export const routes: Routes = [
     {
@@ -31,6 +32,10 @@ export const routes: Routes = [
       {
         path: 'demande-leave',
         component: DemandeCongeComponent
+      },
+      {
+        path: 'list-leave',
+        component: ListLeaveComponent
       }
 
     ];

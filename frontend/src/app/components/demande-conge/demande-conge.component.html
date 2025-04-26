@@ -1,0 +1,39 @@
+<h2 class="text-center">Demande de Congé</h2>
+
+<form #leaveForm="ngForm" (ngSubmit)="onSubmit(leaveForm)" class="p-4 shadow-lg rounded-3 bg-light">
+
+  <div class="mb-3">
+    <label for="type" class="form-label">Type de congé</label>
+    <select class="form-select" id="type" name="type" required [(ngModel)]="form.type">
+      <option value="" disabled selected>-- Choisir --</option>
+      <option value="Congé payé">Congé payé</option>
+      <option value="Congé maladie">Congé maladie</option>
+      <option value="Sans solde">Sans solde</option>
+    </select>
+  </div>
+
+ 
+  <div class="row">
+    <div class="mb-3">
+      <label for="calendar" class="form-label">Sélectionner la période</label>
+      <div id="myCalendarDisabledDates3"></div>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Date de début</label>
+      <input type="date" class="form-control" [(ngModel)]="form.start_date" name="start_date" required>
+    </div>
+  
+    <div class="col-md-6">
+      <label class="form-label">Date de fin</label>
+      <input type="date" class="form-control" [(ngModel)]="form.end_date" name="end_date" required>
+    </div>
+  </div>
+
+
+  <div class="mb-3">
+    <label for="comments" class="form-label">Raison</label>
+    <textarea class="form-control" id="comments" name="comments" [(ngModel)]="form.comments" rows="3"></textarea>
+  </div>
+
+  <button type="submit" class="btn btn-primary w-100" [disabled]="leaveForm.invalid">Soumettre</button>
+</form>
