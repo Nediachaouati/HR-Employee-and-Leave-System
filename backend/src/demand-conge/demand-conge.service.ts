@@ -3,6 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Role } from 'src/role.enum';
 import { DemandConge } from './entities/demand-conge.entity';
+import { CreateDemandCongeDto } from './dto/create-demand-conge.dto';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class DemandCongeService {
@@ -11,19 +13,17 @@ export class DemandCongeService {
     private demandCongeRepository: Repository<DemandConge>,
   ) {}
 
-  async create(demand: Partial<DemandConge>, user: any): Promise<DemandConge> {
-    if (user.role !== Role.EMPLOYE) {
-      throw new ForbiddenException('Seul un employé peut créer une demande de congé');
-    }
-    const newDemand = this.demandCongeRepository.create({
-      ...demand,
-      userId: user.id,
+  async create(createDto: CreateDemandCongeDto, user: User): Promise<DemandConge> {
+    const conge = this.demandCongeRepository.create({
+      ...createDto,
+      userId: user.id, // user from JWT
     });
-    return this.demandCongeRepository.save(newDemand);
+
+    return this.demandCongeRepository.save(conge);
   }
 
   async findAll(user: any): Promise<DemandConge[]> {
-    if (user.role === Role.EMPLOYE) {
+    if (user.role === Role.ADMIN) {
       return this.demandCongeRepository.find({
         where: { userId: user.id },
         relations: ['user', 'approvedBy'],
@@ -48,7 +48,16 @@ export class DemandCongeService {
 
     return demand;
   }
-
+  async findByUser(userId: number): Promise<DemandConge[]> {
+    if (isNaN(userId)) {
+      throw new Error('Invalid userId');
+    }
+  
+    return this.demandCongeRepository.find({
+      where: { userId: userId, status: 'En attente' },  // Ensure valid filtering
+      relations: ['user'],
+    });
+  }
   async update(id: number, demand: Partial<DemandConge>, user: any): Promise<DemandConge> {
     const existingDemand = await this.findOne(id, user); 
     if (user.role === Role.EMPLOYE && existingDemand.userId !== user.id) {

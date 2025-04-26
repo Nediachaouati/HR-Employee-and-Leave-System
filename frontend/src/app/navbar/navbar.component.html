@@ -29,9 +29,23 @@
         demande Leave
       </a>
     </li>
+
+    <li class="nav-item" *ngIf="isEmployee() && authService.isLoggedIn()">
+      <a 
+        [routerLink]="'/list-leave'" 
+        routerLinkActive="active" 
+        [routerLinkActiveOptions]="{ exact: true }" 
+        class="nav-link text-white">
+        <svg class="bi me-2" width="16" height="16">
+          <use xlink:href="#home"></use>
+        </svg>
+        List demande Leave
+      </a>
+    </li>
+   
    
   </ul>
-  <hr>
+<hr>
 
   <div *ngIf="!authService.isLoggedIn()" class="position-relative">
     <ul>
@@ -46,27 +60,32 @@
         </a>
       </li>
     </ul>
-    <div   *ngIf="authService.isLoggedIn()"
+  </div>
+  <div *ngIf="authService.isLoggedIn()"
       class="d-flex align-items-center text-white text-decoration-none"
       style="cursor: pointer;"
       (click)="dropdownOpen = !dropdownOpen">
       <img src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" alt="" width="32" height="32" class="rounded-circle me-2">
       <strong>{{ user.name }}</strong>
       <span class="ms-2">&#9662;</span> <!-- Down arrow -->
-    </div>
   
-    <!-- Show the dropdown above -->
-    <ul *ngIf="dropdownOpen" 
-        class="dropdown-menu dropdown-menu-dark text-small shadow show"
-        style="position: absolute; left: 0; top: -400%; z-index: 9999; min-width: 160px;">
-      <li><a class="dropdown-item" [routerLink]="'/profil'">Profile</a></li>
-      <li><hr class="dropdown-divider"></li>
-      <li><a class="dropdown-item" href="#" (click)="logout()">Sign out</a></li>
-    </ul>
+      <div style="position: relative;">
+
+      
+        <ul *ngIf="dropdownOpen" 
+            class="dropdown-menu dropdown-menu-dark text-small shadow show"
+            style="position: absolute; left: 0; bottom: 100%; transform: translateY(-5px); z-index: 9999; min-width: 160px;">
+          <li><a class="dropdown-item" [routerLink]="'/profil'">Profile</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="#" (click)="logout()">Sign out</a></li>
+        </ul>
+      
+      </div>
+      
   </div>
   
   
-</div>
+
 
 
 
