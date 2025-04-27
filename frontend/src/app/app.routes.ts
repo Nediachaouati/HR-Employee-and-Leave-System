@@ -7,6 +7,7 @@ import { ProfilComponent } from './components/profil/profil.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { DemandeCongeComponent } from './components/demande-conge/demande-conge.component';
 import { ListLeaveComponent } from './components/list-leave/list-leave.component';
+import { LeaveListRhComponent } from './components/leave-list-rh/leave-list-rh.component';
 
 export const routes: Routes = [
     {
@@ -36,7 +37,11 @@ export const routes: Routes = [
       {
         path: 'list-leave',
         component: ListLeaveComponent
-      }
+      },
+      {
+        path: 'leave-list-rh',
+        component: LeaveListRhComponent
+      },
 
     ];
 

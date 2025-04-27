@@ -1,17 +1,14 @@
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
 import { LeaveService } from '../../services/leave.service';
-import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-list-leave',
+  selector: 'app-leave-list-rh',
   imports: [CommonModule],
-  templateUrl: './list-leave.component.html',
-  styleUrl: './list-leave.component.css'
+  templateUrl: './leave-list-rh.component.html',
+  styleUrl: './leave-list-rh.component.css'
 })
-export class ListLeaveComponent {
+export class LeaveListRhComponent {
   demandes: any[] = [];
 
   constructor(private leaveService: LeaveService) {}
@@ -21,7 +18,7 @@ export class ListLeaveComponent {
   }
 
   fetchDemands(){
-    this.leaveService.getMyDemands().subscribe(
+    this.leaveService.getAllDemands().subscribe(
       (data) => {
         this.demandes = data;
       },
@@ -30,6 +27,7 @@ export class ListLeaveComponent {
       }
     );
   }
+  selectedDemandId: number | null = null; // Store only the id
   updateStatus(demandId: number, newStatus: 'Approuvé' | 'Rejeté'): void {
     this.leaveService.updateDemandStatus(demandId, newStatus).subscribe({
       next: () => {
@@ -42,5 +40,11 @@ export class ListLeaveComponent {
       }
     });
   }
-  
+  toggleDetails(demandId: number): void {
+    if (this.selectedDemandId === demandId) {
+      this.selectedDemandId = null; // Hide details
+    } else {
+      this.selectedDemandId = demandId; // Show clicked demand
+    }
+  }
 }
