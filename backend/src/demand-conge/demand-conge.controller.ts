@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Param, Put, Delete, UseGuards,Request, BadRequestException, InternalServerErrorException  } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Put, Delete, UseGuards,Request, BadRequestException, InternalServerErrorException, Patch, ForbiddenException  } from '@nestjs/common';
 import { DemandCongeService } from './demand-conge.service';
 import { DemandConge } from './entities/demand-conge.entity';
 import { Role } from 'src/role.enum';
@@ -53,4 +53,17 @@ export class DemandCongeController {
   remove(@Param('id') id: string, @CurrentUser() user: any) {
     return this.demandCongeService.remove(+id, user);
   }
+@Patch(':id/status')
+@Roles(Role.RH) 
+async updateStatus(
+  @Param('id') id: number,
+  @Body('status') status: 'En attente' | 'Approuvé' | 'Rejeté',
+  @Request() req: any,
+) {
+  const user = req.user; // The user info from the token
+
+
+  return this.demandCongeService.updateStatus(id, status);
+}
+
 }

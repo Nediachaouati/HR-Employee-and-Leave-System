@@ -22,5 +22,11 @@ export class LeaveService {
   createDemand(demand: any): Observable<any> {
     return this.http.post('http://localhost:3000/demand', demand,{ headers: this.getAuthHeaders() });;
   }
+  updateDemandStatus(demandId: number, newStatus: 'Approuvé' | 'Rejeté') {
+    return this.http.patch(`http://localhost:3000/demand/${demandId}/status`, { status: newStatus },{ headers: this.getAuthHeaders() });
+  }
+  getAllDemands(): Observable<any[]> {
+    return this.http.get<any[]>('http://localhost:3000/demand',{ headers: this.getAuthHeaders() });
+  }
   
 }

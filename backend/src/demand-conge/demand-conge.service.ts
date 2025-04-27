@@ -74,4 +74,14 @@ export class DemandCongeService {
     }
     await this.demandCongeRepository.delete(id);
   }
+  async updateStatus(id: number, status: 'En attente' | 'Approuvé' | 'Rejeté'): Promise<DemandConge> {
+    const demand = await this.demandCongeRepository.findOne({ where: { id } });
+  
+    if (!demand) {
+      throw new NotFoundException('Demand not found');
+    }
+  
+    demand.status = status;
+    return this.demandCongeRepository.save(demand);
+  }
 }
