@@ -8,6 +8,9 @@ import { ChangePasswordComponent } from './components/change-password/change-pas
 import { DemandeCongeComponent } from './components/demande-conge/demande-conge.component';
 import { ListLeaveComponent } from './components/list-leave/list-leave.component';
 import { LeaveListRhComponent } from './components/leave-list-rh/leave-list-rh.component';
+import { PerformanceEvalutaionComponent } from './components/performance-evalutaion/performance-evalutaion.component';
+import { ListEmployeeComponent } from './components/list-employee/list-employee.component';
+import { EvaluationsOneEmployeeComponent } from './components/evaluations-one-employee/evaluations-one-employee.component';
 
 export const routes: Routes = [
     {
@@ -42,6 +45,13 @@ export const routes: Routes = [
         path: 'leave-list-rh',
         component: LeaveListRhComponent
       },
+      { path: 'performance-evaluation/:employeeId', component: PerformanceEvalutaionComponent },
+      {
+        path: 'employees',
+        component: ListEmployeeComponent
+      },
+      { path: 'evaluations/:id', component: EvaluationsOneEmployeeComponent },
+      
 
     ];
 

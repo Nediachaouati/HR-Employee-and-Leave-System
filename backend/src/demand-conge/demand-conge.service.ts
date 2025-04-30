@@ -29,6 +29,7 @@ export class DemandCongeService {
         relations: ['user', 'approvedBy'],
       });
     }
+    
     return this.demandCongeRepository.find({ relations: ['user', 'approvedBy'] });
   }
 
@@ -49,13 +50,9 @@ export class DemandCongeService {
     return demand;
   }
   async findByUser(userId: number): Promise<DemandConge[]> {
-    if (isNaN(userId)) {
-      throw new Error('Invalid userId');
-    }
-  
     return this.demandCongeRepository.find({
-      where: { userId: userId, status: 'En attente' },  // Ensure valid filtering
-      relations: ['user'],
+      where: { userId },
+      relations: ['user'], // include the user info if needed
     });
   }
   async update(id: number, demand: Partial<DemandConge>, user: any): Promise<DemandConge> {

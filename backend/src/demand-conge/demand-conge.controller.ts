@@ -53,7 +53,7 @@ export class DemandCongeController {
   remove(@Param('id') id: string, @CurrentUser() user: any) {
     return this.demandCongeService.remove(+id, user);
   }
-@Patch(':id/status')
+@Put(':id/status')
 @Roles(Role.RH) 
 async updateStatus(
   @Param('id') id: number,

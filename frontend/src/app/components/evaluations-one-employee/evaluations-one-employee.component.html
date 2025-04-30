@@ -1,0 +1,55 @@
+<div class="container mt-4">
+  <h2 class="mb-4 text-primary">Evaluations for Employee ID: {{ employeeId }}</h2>
+
+  <div *ngIf="evaluations.length > 0; else noEvaluations">
+    <table class="table table-hover table-bordered shadow-sm rounded">
+      <thead class="thead-dark">
+        <tr>
+          <th>Period</th>
+          <th>Year</th>
+          <th>Score</th>
+          <th>Comments</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let evaluation of evaluations">
+          <td>{{ evaluation.evaluationPeriod }}</td>
+          <td>{{ evaluation.evaluationYear }}</td>
+          <td>
+            <div class="star-rating text-warning">
+              <ng-container *ngFor="let star of [1,2,3,4,5]; let i = index">
+                <i
+                  class="fa"
+                  [ngClass]="{
+                    'fa-star': i < evaluation.overallScore,
+                    'fa-star-o': i >= evaluation.overallScore
+                  }"
+                ></i>
+              </ng-container>
+              <span class="ml-2 text-dark">({{ evaluation.overallScore }})</span>
+            </div>
+          </td>
+          <td>{{ evaluation.comments }}</td>
+          <td>
+            <span 
+              class="badge" 
+              [ngClass]="{
+                'badge-success': evaluation.status === 'SUBMITTED',
+                'badge-warning': evaluation.status === 'DRAFT',
+                'badge-danger': evaluation.status === 'REJECTED',
+                'badge-secondary': evaluation.status !== 'SUBMITTED' && evaluation.status !== 'DRAFT' && evaluation.status !== 'REJECTED'
+              }"
+            >
+              {{ evaluation.status }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ng-template #noEvaluations>
+    <div class="alert alert-info">No evaluations found for this employee.</div>
+  </ng-template>
+</div>

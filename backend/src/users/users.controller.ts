@@ -28,12 +28,17 @@ export class UsersController {
 
   // lister et filtrer uniquement les employes
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN||Role.RH)
   @Get('employes')
   findCandidats(@Query() query: FindUsersDto) {
     return this.usersService.findUsersByRoles([Role.EMPLOYE], query);  
   }
-
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.RH)
+  @Get('employees')
+  findusers(@Query() query: FindUsersDto) {
+    return this.usersService.findUsersByRoles([Role.EMPLOYE], query);  
+  }
   @Get('profile')
   getProfile(@CurrentUser() user: User) {
     return user;
@@ -110,7 +115,10 @@ try {
 
 return user;
 }
-
+@Get(':id')
+async findOne(@Param('id') id: number): Promise<User> {
+  return this.usersService.findOneById(+id);
+}
   // rh delete user 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.RH)
