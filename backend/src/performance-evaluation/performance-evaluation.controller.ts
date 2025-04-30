@@ -47,4 +47,9 @@ export class PerformanceEvaluationController {
   remove(@Param('id') id: string) {
     return this.performanceEvaluationService.remove(+id);
   }
+  @Get('/employee/:employeeId')
+  @Roles(Role.RH)
+  findByEmployee(@Param('employeeId') employeeId: number) {
+  return this.performanceEvaluationService.findByEmployee(employeeId);
+}
 } 

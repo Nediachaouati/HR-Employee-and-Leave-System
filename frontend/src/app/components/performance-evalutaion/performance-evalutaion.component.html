@@ -1,0 +1,56 @@
+<div class="container mt-5">
+  <div class="card shadow-lg p-4 rounded">
+    <h2 class="text-center mb-4">Evaluate Employee :{{ employee.name }}</h2>
+
+    <form (ngSubmit)="submitEvaluation()" #evaluationForm="ngForm">
+      
+      <!-- Evaluation Period -->
+      <div class="form-group mb-3">
+        <label for="evaluationPeriod" class="fw-bold mb-2">Evaluation Period</label>
+        <select id="evaluationPeriod" class="form-control" [(ngModel)]="evaluation.evaluationPeriod" name="evaluationPeriod" required>
+          <option value="ANNUAL">Annual</option>
+          <option value="QUARTERLY">Quarterly</option>
+          <option value="MONTHLY">Monthly</option>
+        </select>
+      </div>
+
+      <!-- Evaluation Year -->
+      <div class="form-group mb-3">
+        <label for="evaluationYear" class="fw-bold mb-2">Evaluation Year</label>
+        <input type="number" id="evaluationYear" class="form-control" [(ngModel)]="evaluation.evaluationYear" name="evaluationYear" required>
+      </div>
+
+      <!-- Overall Score (Stars) -->
+      <div class="form-group mb-3 text-center">
+        <label class="fw-bold mb-2">Overall Score</label>
+        <div class="star-rating d-flex justify-content-center">
+          <span *ngFor="let star of stars; let i = index" (click)="setScore(i + 1)">
+            <i class="fa"
+               [ngClass]="{
+                 'fa-star': evaluation.overallScore != null && (i + 1) <= evaluation.overallScore,
+                 'fa-star-o': evaluation.overallScore == null || (i + 1) > evaluation.overallScore
+               }"
+               style="font-size: 2.5rem; cursor: pointer; color: gold; margin: 0 5px;">
+            </i>
+          </span>
+        </div>
+      </div>
+
+      <!-- Comments -->
+      <div class="form-group mb-3">
+        <label for="comments" class="fw-bold mb-2">Comments</label>
+        <textarea id="comments" class="form-control" [(ngModel)]="evaluation.comments" name="comments" rows="4" required></textarea>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn btn-primary btn-lg w-100 mt-4" [disabled]="evaluationForm.invalid">
+        Submit Evaluation
+      </button>
+    </form>
+
+    <!-- Success Alert -->
+    <div *ngIf="evaluationSubmitted" class="alert alert-success mt-4 text-center">
+      <strong>Success!</strong> The performance evaluation has been submitted.
+    </div>
+  </div>
+</div>
