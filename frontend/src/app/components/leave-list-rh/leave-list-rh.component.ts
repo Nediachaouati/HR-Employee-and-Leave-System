@@ -27,12 +27,12 @@ export class LeaveListRhComponent {
       }
     );
   }
-  selectedDemandId: number | null = null; // Store only the id
+  selectedDemandId: number | null = null; 
   updateStatus(demandId: number, newStatus: 'Approuvé' | 'Rejeté'): void {
     this.leaveService.updateDemandStatus(demandId, newStatus).subscribe({
       next: () => {
         alert('Status updated successfully!');
-        this.fetchDemands(); // Refresh the list after update
+        this.fetchDemands(); 
       },
       error: (err) => {
         console.error(err);
