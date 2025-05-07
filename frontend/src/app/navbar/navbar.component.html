@@ -1,4 +1,4 @@
-<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark aa" style="width: 280px;height: 951px;">
+<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark aa" style="width: 280px;height: 866px;">
   <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
     <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
     <span class="fs-4">RhEmployee</span>
@@ -51,6 +51,18 @@
           <use xlink:href="#home"></use>
         </svg>
         Employees List
+      </a>
+    </li>
+    <li class="nav-item" *ngIf="isEmployee()  && authService.isLoggedIn()">
+      <a 
+        [routerLink]="'/addtimesheet'" 
+        routerLinkActive="active" 
+        [routerLinkActiveOptions]="{ exact: true }" 
+        class="nav-link text-white">
+        <svg class="bi me-2" width="16" height="16">
+          <use xlink:href="#addtimesheet"></use>
+        </svg>
+        Add Your Timesheet 
       </a>
     </li>
     <li class="nav-item" *ngIf="isEmployee()  && authService.isLoggedIn()">

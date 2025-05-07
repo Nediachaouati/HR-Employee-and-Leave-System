@@ -1,0 +1,73 @@
+<div class="container-fluid mt-5">
+  <h2 class="mb-4">Timesheets of Employee</h2>
+
+  <!-- Display Today's Timesheet -->
+  <div *ngIf="todayTimesheet">
+    <h4>Today's Timesheet</h4>
+    <table class="table table-striped table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th>Date</th>
+          <th>Hours Worked</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{ todayTimesheet.date }}</td>
+          <td>{{ todayTimesheet.hoursWorked }} Hours</td>
+          <td>
+            <span class="badge px-3 py-2"
+              [ngClass]="{
+                'bg-success': todayTimesheet.status === 'VALIDATED',
+                'bg-danger': todayTimesheet.status === 'REJECTED',
+                'bg-warning text-dark': todayTimesheet.status === 'PENDING'
+              }">
+              {{ todayTimesheet.status }}
+            </span>
+          </td>
+          <td>
+            <button class="btn btn-outline-success btn-sm" (click)="validate(todayTimesheet.id, 'validate')">Approve</button>&nbsp;
+            <button class="btn btn-outline-danger btn-sm" (click)="validate(todayTimesheet.id, 'reject')">Reject</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Display Grouped Timesheets by Month -->
+  <div *ngFor="let group of groupedTimesheets">
+    <h4>{{ group.month | date: 'MMMM yyyy' }}</h4>
+    <table class="table table-striped table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th>Date</th>
+          <th>Hours Worked</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let timesheet of group.timesheets">
+          <td>{{ timesheet.date }}</td>
+          <td>{{ timesheet.hoursWorked }} Hours</td>
+          <td>
+            <span class="badge px-3 py-2"
+              [ngClass]="{
+                'bg-success': timesheet.status === 'VALIDATED',
+                'bg-danger': timesheet.status === 'REJECTED',
+                'bg-warning text-dark': timesheet.status === 'PENDING'
+              }">
+              {{ timesheet.status }}
+            </span>
+          </td>
+          <td>
+            <button class="btn btn-outline-success btn-sm" (click)="validate(timesheet.id, 'validate')">Approve</button>
+            <button class="btn btn-outline-danger btn-sm" (click)="validate(timesheet.id, 'reject')">Reject</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

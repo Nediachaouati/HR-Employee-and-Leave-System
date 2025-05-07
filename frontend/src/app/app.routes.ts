@@ -11,6 +11,8 @@ import { LeaveListRhComponent } from './components/leave-list-rh/leave-list-rh.c
 import { PerformanceEvalutaionComponent } from './components/performance-evalutaion/performance-evalutaion.component';
 import { ListEmployeeComponent } from './components/list-employee/list-employee.component';
 import { EvaluationsOneEmployeeComponent } from './components/evaluations-one-employee/evaluations-one-employee.component';
+import { AddtimesheetComponent } from './components/addtimesheet/addtimesheet.component';
+import { TimesheetOfOneEmployeeComponent } from './components/timesheet-of-one-employee/timesheet-of-one-employee.component';
 
 export const routes: Routes = [
     {
@@ -51,6 +53,8 @@ export const routes: Routes = [
         component: ListEmployeeComponent
       },
       { path: 'evaluations/:id', component: EvaluationsOneEmployeeComponent },
+      { path: 'addtimesheet', component: AddtimesheetComponent },
+      { path: 'timesheet/:id', component: TimesheetOfOneEmployeeComponent }, 
       
 
     ];
