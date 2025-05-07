@@ -9,7 +9,6 @@
           <th>Year</th>
           <th>Score</th>
           <th>Comments</th>
-          <th>Status</th>
         </tr>
       </thead>
       <tbody>
@@ -31,19 +30,7 @@
             </div>
           </td>
           <td>{{ evaluation.comments }}</td>
-          <td>
-            <span 
-              class="badge" 
-              [ngClass]="{
-                'badge-success': evaluation.status === 'SUBMITTED',
-                'badge-warning': evaluation.status === 'DRAFT',
-                'badge-danger': evaluation.status === 'REJECTED',
-                'badge-secondary': evaluation.status !== 'SUBMITTED' && evaluation.status !== 'DRAFT' && evaluation.status !== 'REJECTED'
-              }"
-            >
-              {{ evaluation.status }}
-            </span>
-          </td>
+         
         </tr>
       </tbody>
     </table>

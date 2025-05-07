@@ -30,7 +30,10 @@ export class ListEmployeeComponent {
       }
     );
   }
-
+  viewTimesheet(employeeId: number) {
+    this.router.navigate(['/timesheet', employeeId]);
+  }
+  
   
   evaluateEmployee(employeeId: number): void {
     // Correct the navigation to pass the employeeId directly in the route array

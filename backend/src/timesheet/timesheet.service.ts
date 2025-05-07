@@ -54,12 +54,22 @@ export class TimesheetService {
     });
 
   }
-
-
+  async getMyTimesheets(userId: number) {
+    return this.timesheetRepository.find({
+      where: { createdBy: { id: userId } },
+      order: { date: 'DESC' }, // optional: newest first
+    });
+  }
   findAll() {
     return `This action returns all timesheet`;
   }
-
+  async getAllTimesheets() {
+    return this.timesheetRepository.find({
+      relations: ['createdBy', 'validatedBy'], // optional: include related user data
+      order: { date: 'DESC' }, // optional sorting
+    });
+  }
+  
   findOne(id: number) {
     return `This action returns a #${id} timesheet`;
   }

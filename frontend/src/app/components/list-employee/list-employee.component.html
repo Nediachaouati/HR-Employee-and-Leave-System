@@ -1,28 +1,33 @@
 <div class="container">
-    <h2>Employee List</h2>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Evaluations</th>
-          <th>evaluate Employee</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let employee of employees">
-          <td>{{ employee.name }}</td>
-    
-          <td>
-            <!-- The button now links to the EvaluationsOneEmployeeComponent with the employee ID -->
-            <button class="btn btn-info " style="color: white;"  (click)="viewEvaluations(employee.id)">Evaluations</button>
-          </td>
-          <td>
-            <button class="btn btn-primary" (click)="evaluateEmployee(employee.id)">
-              Evaluate Employee
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  
+  <h2>Employee List</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Evaluations</th>
+        <th>Evaluate Employee</th>
+        <th>Timesheet</th> <!-- New Column -->
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let employee of employees">
+        <td>{{ employee.name }}</td>
+        <td>
+          <button class="btn btn-info" style="color: white;" (click)="viewEvaluations(employee.id)">
+            Evaluations
+          </button>
+        </td>
+        <td>
+          <button class="btn btn-primary" (click)="evaluateEmployee(employee.id)">
+            Evaluate Employee
+          </button>
+        </td>
+        <td>
+          <button class="btn btn-warning" (click)="viewTimesheet(employee.id)">
+            Timesheet
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
