@@ -32,7 +32,7 @@ export class LoginComponent {
 
         this.authService.saveToken(token);
 
-        const redirectRoute = userRole === 'ADMIN' ? '/home' : '/';
+        const redirectRoute = userRole === 'RH' ? '/home' : '/list-leave';
         this.router.navigate([redirectRoute]).then(() => {
           window.location.reload();
         });

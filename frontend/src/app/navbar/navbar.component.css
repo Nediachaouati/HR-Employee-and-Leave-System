@@ -1,3 +1,23 @@
 .aa{
 height: 737px;
 }
+.fa-eye {
+    cursor: pointer;
+    &.read {
+      color: grey;
+    }
+    &.unread {
+      color: blue;
+    }
+  }
+  .notification-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .unread-notification {
+    background-color: #f1f5f9; /* Tailwind gray-100 or any light gray */
+  }

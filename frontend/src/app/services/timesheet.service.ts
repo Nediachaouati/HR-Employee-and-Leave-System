@@ -29,4 +29,8 @@ export class TimesheetService {
   validateTimesheet(id: number, action: 'validate' | 'reject') {
     return this.http.patch(`http://localhost:3000/timesheet/${id}/validate`, { action }, { headers: this.getAuthHeaders() });
   }
+  getTimesheetStatsByStatus(): Observable<any> {
+    return this.http.get<any>('http://localhost:3000/timesheet/stats/status', { headers: this.getAuthHeaders() });
+  }
+  
 }

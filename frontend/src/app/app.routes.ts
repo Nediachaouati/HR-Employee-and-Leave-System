@@ -13,11 +13,12 @@ import { ListEmployeeComponent } from './components/list-employee/list-employee.
 import { EvaluationsOneEmployeeComponent } from './components/evaluations-one-employee/evaluations-one-employee.component';
 import { AddtimesheetComponent } from './components/addtimesheet/addtimesheet.component';
 import { TimesheetOfOneEmployeeComponent } from './components/timesheet-of-one-employee/timesheet-of-one-employee.component';
+import { MyTimesheetsComponent } from './components/my-timesheets/my-timesheets.component';
 
 export const routes: Routes = [
     {
         path: '',
-        component: HomeComponentComponent,
+        component: LoginComponent,
       },
       {
         path: 'home',
@@ -55,7 +56,8 @@ export const routes: Routes = [
       { path: 'evaluations/:id', component: EvaluationsOneEmployeeComponent },
       { path: 'addtimesheet', component: AddtimesheetComponent },
       { path: 'timesheet/:id', component: TimesheetOfOneEmployeeComponent }, 
-      
+      { path: 'mytimesheet/:id', component: MyTimesheetsComponent }, 
+
 
     ];
 

@@ -39,7 +39,6 @@ export class AuthService {
     return null;
   } 
   getUser(): { role: string } | null {
-    // Example implementation: Retrieve user from local storage or a similar source
     const user = localStorage.getItem('user');
     return user ? JSON.parse(user) : null;
   }

@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PerformanceEvaluationService } from '../../services/performance-evaluation.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-evaluations-one-employee',
@@ -15,14 +15,36 @@ export class EvaluationsOneEmployeeComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private evaluationService: PerformanceEvaluationService
-  ) {}
+    private evaluationService: PerformanceEvaluationService,
+    @Inject(PLATFORM_ID) private platformId: Object
+
+  ) {
+    
+  }
 
   ngOnInit(): void {
     this.employeeId = +this.route.snapshot.paramMap.get('id')!;
     this.getEvaluations();
   }
 
+  deleteEvaluation(id: number): void {
+    if (isPlatformBrowser(this.platformId) && confirm('Are you sure you want to delete this evaluation?')) {
+      this.evaluationService.deleteEvaluation(id).subscribe({
+        next: () => {
+          this.evaluations = this.evaluations.filter((e) => e.id !== id);
+          if (isPlatformBrowser(this.platformId)) {
+            alert('Evaluation deleted successfully');
+          }
+        },
+        error: (err) => {
+          console.error('Error deleting evaluation:', err);
+          if (isPlatformBrowser(this.platformId)) {
+            alert('Failed to delete evaluation');
+          }
+        },
+      });
+    }
+  }
   getEvaluations(): void {
     this.evaluationService.getEvaluationsByEmployeeId(this.employeeId)
       .subscribe({

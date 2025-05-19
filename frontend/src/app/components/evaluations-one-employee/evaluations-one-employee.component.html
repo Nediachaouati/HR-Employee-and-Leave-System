@@ -1,42 +1,119 @@
-<div class="container mt-4">
-  <h2 class="mb-4 text-primary">Evaluations for Employee ID: {{ employeeId }}</h2>
+<div class="container mt-5">
+  <!-- Page Header -->
+  <h2 class="mb-4 fw-bold">Performance Evaluations for Employee ID: {{ employeeId }}</h2>
 
-  <div *ngIf="evaluations.length > 0; else noEvaluations">
-    <table class="table table-hover table-bordered shadow-sm rounded">
-      <thead class="thead-dark">
-        <tr>
-          <th>Period</th>
-          <th>Year</th>
-          <th>Score</th>
-          <th>Comments</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let evaluation of evaluations">
-          <td>{{ evaluation.evaluationPeriod }}</td>
-          <td>{{ evaluation.evaluationYear }}</td>
-          <td>
-            <div class="star-rating text-warning">
-              <ng-container *ngFor="let star of [1,2,3,4,5]; let i = index">
-                <i
-                  class="fa"
-                  [ngClass]="{
-                    'fa-star': i < evaluation.overallScore,
-                    'fa-star-o': i >= evaluation.overallScore
-                  }"
-                ></i>
-              </ng-container>
-              <span class="ml-2 text-dark">({{ evaluation.overallScore }})</span>
-            </div>
-          </td>
-          <td>{{ evaluation.comments }}</td>
-         
-        </tr>
-      </tbody>
-    </table>
+  <!-- Evaluations Table -->
+  <div class="card shadow-sm border-0 rounded-3">
+    <div class="card-body p-4">
+      <div *ngIf="evaluations.length > 0; else noEvaluations" class="table-responsive">
+        <table class="table table-hover table-bordered align-middle modern-table">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">Period</th>
+              <th scope="col">Year</th>
+              <th scope="col">Score</th>
+              <th scope="col">Comments</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let evaluation of evaluations">
+              <td>{{ evaluation.evaluationPeriod }}</td>
+              <td>{{ evaluation.evaluationYear }}</td>
+              <td>
+                <div class="star-rating text-warning">
+                  <ng-container *ngFor="let star of [1,2,3,4,5]; let i = index">
+                    <i
+                      class="fa"
+                      [ngClass]="{
+                        'fa-star': i < evaluation.overallScore,
+                        'fa-star-o': i >= evaluation.overallScore
+                      }"
+                    ></i>
+                  </ng-container>
+                  <span class="ms-2 text-muted">({{ evaluation.overallScore }})</span>
+                </div>
+              </td>
+              <td>{{ evaluation.comments }}</td>
+              <td>
+                <button
+                  class="btn btn-sm btn-danger d-flex align-items-center"
+                  (click)="deleteEvaluation(evaluation.id)"
+                  title="Delete Evaluation"
+                >
+                  <i class="fa fa-trash me-1"></i> Delete
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <ng-template #noEvaluations>
+        <div class="alert alert-info rounded-3">No evaluations found for this employee.</div>
+      </ng-template>
+    </div>
   </div>
-
-  <ng-template #noEvaluations>
-    <div class="alert alert-info">No evaluations found for this employee.</div>
-  </ng-template>
 </div>
+
+<!-- Custom Styles -->
+<style>
+  .modern-table {
+    border-collapse: separate;
+    border-spacing: 0;
+    background-color: #ffffff;
+  }
+
+  .modern-table th,
+  .modern-table td {
+    padding: 12px 15px;
+    vertical-align: middle;
+  }
+
+  .modern-table thead th {
+    background-color: #343a40;
+    color: #ffffff;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+  }
+
+  .modern-table tbody tr {
+    transition: background-color 0.2s ease;
+  }
+
+  .modern-table tbody tr:hover {
+    background-color: #f8f9fa;
+  }
+
+  .modern-table td {
+    border-color: #e9ecef;
+  }
+
+  .star-rating i {
+    font-size: 1.1rem;
+  }
+
+  .btn-danger {
+    transition: background-color 0.2s ease;
+  }
+
+  .btn-danger:hover {
+    background-color: #c82333;
+  }
+
+  .card {
+    border-radius: 0.75rem;
+    overflow: hidden;
+  }
+
+  .table-responsive {
+    border-radius: 0.5rem;
+    overflow-x: auto;
+  }
+
+  .alert-info {
+    font-size: 1rem;
+    padding: 15px;
+  }
+</style>

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request, InternalServerErrorException } from '@nestjs/common';
 import { PerformanceEvaluationService } from './performance-evaluation.service';
 import { CreatePerformanceEvaluationDto } from './dto/create-performance-evaluation.dto';
 import { UpdatePerformanceEvaluationDto } from './dto/update-performance-evaluation.dto';
@@ -51,5 +51,14 @@ export class PerformanceEvaluationController {
   @Roles(Role.RH)
   findByEmployee(@Param('employeeId') employeeId: number) {
   return this.performanceEvaluationService.findByEmployee(employeeId);
+}
+@Get('stats/score')
+@Roles(Role.RH)
+async getEvaluationStatsByScore() {
+  try {
+    return await this.performanceEvaluationService.getEvaluationStatsByScore();
+  } catch (error) {
+    throw new InternalServerErrorException(error.message);
+  }
 }
 } 

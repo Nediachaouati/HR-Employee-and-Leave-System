@@ -1,73 +1,201 @@
-<div class="container-fluid mt-5">
-  <h2 class="mb-4">Timesheets of Employee</h2>
+<div class="container-fluid mt-4 px-3">
+  <h2 class="mb-3 text-xl font-bold text-gray-900">Timesheets of Employee</h2>
 
   <!-- Display Today's Timesheet -->
-  <div *ngIf="todayTimesheet">
-    <h4>Today's Timesheet</h4>
-    <table class="table table-striped table-hover">
-      <thead class="table-dark">
-        <tr>
-          <th>Date</th>
-          <th>Hours Worked</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>{{ todayTimesheet.date }}</td>
-          <td>{{ todayTimesheet.hoursWorked }} Hours</td>
-          <td>
-            <span class="badge px-3 py-2"
-              [ngClass]="{
-                'bg-success': todayTimesheet.status === 'VALIDATED',
-                'bg-danger': todayTimesheet.status === 'REJECTED',
-                'bg-warning text-dark': todayTimesheet.status === 'PENDING'
-              }">
-              {{ todayTimesheet.status }}
-            </span>
-          </td>
-          <td>
-            <button class="btn btn-outline-success btn-sm" (click)="validate(todayTimesheet.id, 'validate')">Approve</button>&nbsp;
-            <button class="btn btn-outline-danger btn-sm" (click)="validate(todayTimesheet.id, 'reject')">Reject</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div *ngIf="todayTimesheet" class="mb-4">
+    <h4 class="text-base font-semibold text-gray-800 mb-2">Today's Timesheet</h4>
+    <div class="table-responsive shadow-md rounded-lg overflow-hidden">
+      <table class="table table-hover w-100 bg-white border-separate" style="border-spacing: 0;">
+        <thead class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-center">
+          <tr>
+            <th class="py-2 px-3 font-semibold text-xs">Date</th>
+            <th class="py-2 px-3 font-semibold text-xs">Hours Worked</th>
+            <th class="py-2 px-3 font-semibold text-xs">Status</th>
+            <th class="py-2 px-3 font-semibold text-xs" style="min-width: 150px;">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="text-center text-gray-700">
+          <tr class="hover:bg-gray-50 transition-colors duration-200">
+            <td class="py-2 px-3 border-b border-gray-200 text-sm">{{ todayTimesheet.date }}</td>
+            <td class="py-2 px-3 border-b border-gray-200 text-sm">{{ todayTimesheet.hoursWorked }} Hours</td>
+            <td class="py-2 px-3 border-b border-gray-200">
+              <span class="badge px-2 py-1 font-medium text-xs"
+                [ngClass]="{
+                  'text-success': todayTimesheet.status === 'VALIDATED',
+                  'text-danger': todayTimesheet.status === 'REJECTED',
+                  'text-warning': todayTimesheet.status === 'PENDING'
+                }">
+                {{ todayTimesheet.status }}
+              </span>
+            </td>
+            <td class="py-2 px-3 border-b border-gray-200">
+              <div class="d-flex gap-1 justify-content-center">
+                <button class="btn btn-success btn-xs px-3 py-1 rounded-md font-medium text-white transition-all duration-200 hover:bg-green-600 hover:shadow-sm" (click)="validate(todayTimesheet.id, 'validate')">Approve</button>
+                <button class="btn btn-danger btn-xs px-3 py-1 rounded-md font-medium text-white transition-all duration-200 hover:bg-red-600 hover:shadow-sm" (click)="validate(todayTimesheet.id, 'reject')">Reject</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <!-- Display Grouped Timesheets by Month -->
-  <div *ngFor="let group of groupedTimesheets">
-    <h4>{{ group.month | date: 'MMMM yyyy' }}</h4>
-    <table class="table table-striped table-hover">
-      <thead class="table-dark">
-        <tr>
-          <th>Date</th>
-          <th>Hours Worked</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let timesheet of group.timesheets">
-          <td>{{ timesheet.date }}</td>
-          <td>{{ timesheet.hoursWorked }} Hours</td>
-          <td>
-            <span class="badge px-3 py-2"
-              [ngClass]="{
-                'bg-success': timesheet.status === 'VALIDATED',
-                'bg-danger': timesheet.status === 'REJECTED',
-                'bg-warning text-dark': timesheet.status === 'PENDING'
-              }">
-              {{ timesheet.status }}
-            </span>
-          </td>
-          <td>
-            <button class="btn btn-outline-success btn-sm" (click)="validate(timesheet.id, 'validate')">Approve</button>
-            <button class="btn btn-outline-danger btn-sm" (click)="validate(timesheet.id, 'reject')">Reject</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div *ngFor="let group of groupedTimesheets" class="mb-4">
+    <h4 class="text-base font-semibold text-gray-800 mb-2">{{ group.month | date: 'MMMM yyyy' }}</h4>
+    <div class="table-responsive shadow-md rounded-lg overflow-hidden">
+      <table class="table table-hover w-100 bg-white border-separate" style="border-spacing: 0;">
+        <thead class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-center">
+          <tr>
+            <th class="py-2 px-3 font-semibold text-xs">Date</th>
+            <th class="py-2 px-3 font-semibold text-xs">Hours Worked</th>
+            <th class="py-2 px-3 font-semibold text-xs">Status</th>
+            <th class="py-2 px-3 font-semibold text-xs" style="min-width: 150px;">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="text-center text-gray-700">
+          <tr *ngFor="let timesheet of group.timesheets" class="hover:bg-gray-50 transition-colors duration-200">
+            <td class="py-2 px-3 border-b border-gray-200 text-sm">{{ timesheet.date }}</td>
+            <td class="py-2 px-3 border-b border-gray-200 text-sm">{{ timesheet.hoursWorked }} Hours</td>
+            <td class="py-2 px-3 border-b border-gray-200">
+              <span class="badge px-2 py-1 rounded-full font-medium text-xs"
+                [ngClass]="{
+                  'text-success': timesheet.status === 'VALIDATED',
+                  'text-danger': timesheet.status === 'REJECTED',
+                  'text-warning': timesheet.status === 'PENDING'
+                }">
+                {{ timesheet.status }}
+              </span>
+            </td>
+            <td class="py-2 px-3 border-b border-gray-200">
+              <div class="d-flex gap-1 justify-content-center">
+                <button class="btn btn-success btn-xs px-3 py-1 rounded-md font-medium text-white transition-all duration-200 hover:bg-green-600 hover:shadow-sm" (click)="validate(timesheet.id, 'validate')">Approve</button>
+                <button class="btn btn-danger btn-xs px-3 py-1 rounded-md font-medium text-white transition-all duration-200 hover:bg-red-600 hover:shadow-sm" (click)="validate(timesheet.id, 'reject')">Reject</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
+
+<style>
+/* Compact and Professional Table Styles */
+.container-fluid {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.table-responsive {
+  background: #ffffff;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+.table {
+  margin-bottom: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.table th, .table td {
+  vertical-align: middle;
+  font-size: 0.85rem;
+}
+
+.table th {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.table td {
+  color: #374151;
+}
+
+.table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.table tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+.badge {
+  font-size: 0.75rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 16px;
+  font-weight: 500;
+}
+
+.btn-xs {
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 6px;
+  padding: 0.4rem 0.75rem;
+  line-height: 1.2;
+  transition: all 0.2s ease;
+}
+
+.btn-success {
+  background-color: #22c55e;
+  border-color: #22c55e;
+  color: #ffffff;
+}
+
+.btn-success:hover {
+  background-color: #16a34a;
+  border-color: #16a34a;
+}
+
+.btn-danger {
+  background-color: #ef4444;
+  border-color: #ef4444;
+  color: #ffffff;
+}
+
+.btn-danger:hover {
+  background-color: #dc2626;
+  border-color: #dc2626;
+}
+
+.border-gray-200 {
+  border-color: #e5e7eb;
+}
+
+.text-gray-700 {
+  color: #374151;
+}
+
+.text-gray-800 {
+  color: #1f2937;
+}
+
+.text-gray-900 {
+  color: #111827;
+}
+
+.rounded-lg {
+  border-radius: 8px;
+}
+
+.rounded-md {
+  border-radius: 6px;
+}
+
+.rounded-full {
+  border-radius: 9999px;
+}
+
+.shadow-md {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.shadow-sm {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.transition-all {
+  transition: all 0.2s ease;
+}
+</style>

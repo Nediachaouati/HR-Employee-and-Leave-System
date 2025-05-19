@@ -51,4 +51,8 @@ export class TimesheetController {
   getMyTimesheets(@Request() req) {
     return this.timesheetService.getMyTimesheets(req.user.id);
   }
+  @Get('stats/status')
+  async getStatsByStatus() {
+    return this.timesheetService.getTimesheetStats();
+  }
 }

@@ -1,33 +1,151 @@
-<div class="container">
-  <h2>Employee List</h2>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Evaluations</th>
-        <th>Evaluate Employee</th>
-        <th>Timesheet</th> <!-- New Column -->
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let employee of employees">
-        <td>{{ employee.name }}</td>
-        <td>
-          <button class="btn btn-info" style="color: white;" (click)="viewEvaluations(employee.id)">
-            Evaluations
-          </button>
-        </td>
-        <td>
-          <button class="btn btn-primary" (click)="evaluateEmployee(employee.id)">
-            Evaluate Employee
-          </button>
-        </td>
-        <td>
-          <button class="btn btn-warning" (click)="viewTimesheet(employee.id)">
-            Timesheet
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<div class="container-fluid mt-4 px-3">
+  <h2 class="mb-3 text-xl font-bold text-gray-900">Employee List</h2>
+
+  <div class="table-responsive shadow-md rounded-lg overflow-hidden">
+    <table class="table table-hover w-100 bg-white border-separate" style="border-spacing: 0;">
+      <thead class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-center">
+        <tr>
+          <th class="py-2 px-3 font-semibold text-xs">Name</th>
+          <th class="py-2 px-3 font-semibold text-xs">Evaluations</th>
+          <th class="py-2 px-3 font-semibold text-xs">Evaluate Employee</th>
+          <th class="py-2 px-3 font-semibold text-xs">Timesheet</th>
+        </tr>
+      </thead>
+      <tbody class="text-center text-gray-700">
+        <tr *ngFor="let employee of employees" class="hover:bg-gray-50 transition-colors duration-200">
+          <td class="py-2 px-3 border-b border-gray-200 text-sm">{{ employee.name }}</td>
+          <td class="py-2 px-3 border-b border-gray-200">
+            <button class="btn btn-info btn-xs px-3 py-1 rounded-md font-medium text-white transition-all duration-200 hover:bg-blue-500 hover:shadow-sm" (click)="viewEvaluations(employee.id)">
+              Evaluations
+            </button>
+          </td>
+          <td class="py-2 px-3 border-b border-gray-200">
+            <button class="btn btn-primary btn-xs px-3 py-1 rounded-md font-medium text-white transition-all duration-200 hover:bg-indigo-600 hover:shadow-sm" (click)="evaluateEmployee(employee.id)">
+              Evaluate Employee
+            </button>
+          </td>
+          <td class="py-2 px-3 border-b border-gray-200">
+            <button class="btn btn-warning btn-xs px-3 py-1 rounded-md font-medium text-white transition-all duration-200 hover:bg-yellow-600 hover:shadow-sm" (click)="viewTimesheet(employee.id)">
+              Timesheet
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
+
+<style>
+/* Professional and Compact Table Styles */
+.container-fluid {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.table-responsive {
+  background: #ffffff;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+.table {
+  margin-bottom: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.table th, .table td {
+  vertical-align: middle;
+  font-size: 0.85rem;
+}
+
+.table th {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.table td {
+  color: #374151;
+}
+
+.table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.table tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+.btn-xs {
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 6px;
+  padding: 0.4rem 0.75rem;
+  line-height: 1.2;
+  transition: all 0.2s ease;
+}
+
+.btn-info {
+  background-color: #3b82f6;
+  border-color: #3b82f6;
+  color: #ffffff;
+}
+
+.btn-info:hover {
+  background-color: #2563eb;
+  border-color: #2563eb;
+}
+
+.btn-primary {
+  background-color: #4f46e5;
+  border-color: #4f46e5;
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background-color: #4338ca;
+  border-color: #4338ca;
+}
+
+.btn-warning {
+  background-color: #f59e0b;
+  border-color: #f59e0b;
+  color: #ffffff;
+}
+
+.btn-warning:hover {
+  background-color: #d97706;
+  border-color: #d97706;
+}
+
+.border-gray-200 {
+  border-color: #e5e7eb;
+}
+
+.text-gray-700 {
+  color: #374151;
+}
+
+.text-gray-900 {
+  color: #111827;
+}
+
+.rounded-lg {
+  border-radius: 8px;
+}
+
+.rounded-md {
+  border-radius: 6px;
+}
+.shadow-md {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.shadow-sm {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.transition-all {
+  transition: all 0.2s ease;
+}
+</style>

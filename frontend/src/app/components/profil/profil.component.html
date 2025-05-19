@@ -1,14 +1,19 @@
 <div class="container rounded bg-white mt-5 mb-5">
     <div class="row">
-        <!-- Left Section: Profile Picture and Basic Info -->
-        <div class="col-md-3 border-right">
-            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                <img class="rounded-circle mt-5" width="150px" [src]="user.photo || 'https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg'" alt="Profile Picture">
-                <span class="font-weight-bold">{{ user.name }}</span>
-                <span class="text-black-50">{{ user.email }}</span><br><br>
-                <button class="btn profile-button me-2" type="button" [routerLink]="'/change-password'">Changer mot de passe</button>
-            </div>
+      <div class="col-md-3 border-right">
+        <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+          <img
+            class="rounded-circle mt-5"
+            width="150px"
+            [src]="user.photo ? 'http://localhost:3000/uploads/' + user.photo+'.jpg' : 'https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg'"
+            alt="Profile Picture"
+          />
+          <span class="font-weight-bold">{{ user.name }}</span>
+          <span class="text-black-50">{{ user.email }}</span>
+          <br /><br />
+          <button class="btn profile-button me-2" type="button" [routerLink]="'/change-password'">Changer mot de passe</button>
         </div>
+      </div>
 
         <!-- Middle Section: Personal Information -->
         <div class="col-md-6 border-right">

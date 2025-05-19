@@ -1,5 +1,6 @@
+import { Notification } from 'src/notification/entities/notification.entity';
 import { User } from 'src/users/entities/user.entity';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 
 
 @Entity('demand_conge')
@@ -35,6 +36,9 @@ export class DemandConge {
   @ManyToOne(() => User)
   @JoinColumn({ name: 'approved_by' })
   approvedBy?: User; 
+
+  @OneToMany(() => Notification, (notification) => notification.demand)
+  notifications: Notification[];
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date; 

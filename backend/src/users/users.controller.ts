@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
+import { BadRequestException,UploadedFile, Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards, UseInterceptors } from '@nestjs/common';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { FindUsersDto } from './dto/find-users.dto';
 import { User } from './entities/user.entity';
@@ -11,6 +11,9 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { MailerService } from '@nestjs-modules/mailer';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
 
 @Controller('users')
 export class UsersController {
@@ -93,27 +96,61 @@ export class UsersController {
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(Role.RH)
 @Post('add-employe')
-async addEmployee(@Body() createUserDto: CreateUserDto) {
-const { user, plainPassword } = await this.usersService.createWithRole(createUserDto, Role.EMPLOYE);
-
-try {
-  await this.mailerService.sendMail({
-    to: user.email,
-    subject: 'Détails de votre compte Employe',
-    template: 'welcome-employe',
-    context: {
-      name: user.name || 'EMPLOYE',
-      email: user.email,
-      password: plainPassword,
+@UseInterceptors(
+  FileInterceptor('photo', {
+    storage: diskStorage({
+      destination: './uploads',
+      filename: (req, file, cb) => {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+        const ext = extname(file.originalname);
+        cb(null, `${file.fieldname}-${uniqueSuffix}${ext}`);
+      },
+    }),
+    fileFilter: (req, file, cb) => {
+      // Accept only images (jpeg, png, gif)
+      if (!file.mimetype.match(/\/(jpg|jpeg|png|gif)$/)) {
+        return cb(new BadRequestException('Only image files are allowed!'), false);
+      }
+      cb(null, true);
     },
-  });
-  console.log('Email envoyé avec succès à', user.email);
-} catch (error) {
-  console.error('Erreur lors de l’envoi de l’email :', error);
-  throw error; 
-}
+    limits: {
+      fileSize: 5 * 1024 * 1024, // 5MB limit
+    },
+  }),
+)
+async addEmployee(
+  @Body() createUserDto: CreateUserDto,
+  @UploadedFile() file: Express.Multer.File,
+) {
+  // If a file is uploaded, add its path to the DTO
+  if (file) {
+    createUserDto.photo = `uploads/${file.filename}`;
+  }
 
-return user;
+  const { user, plainPassword } = await this.usersService.createWithRole(
+    createUserDto,
+    Role.EMPLOYE,
+  );
+
+  try {
+    await this.mailerService.sendMail({
+      to: user.email,
+      subject: 'Détails de votre compte Employe',
+      template: 'welcome-employe',
+      context: {
+        name: user.name || 'EMPLOYE',
+        email: user.email,
+        password: plainPassword,
+        photo: user.photo || 'No photo uploaded',
+      },
+    });
+    console.log('Email envoyé avec succès à', user.email);
+  } catch (error) {
+    console.error('Erreur lors de l’envoi de l’email :', error);
+    throw error;
+  }
+
+  return user;
 }
 @Get(':id')
 async findOne(@Param('id') id: number): Promise<User> {

@@ -1,0 +1,30 @@
+.aa{
+    height: 737px;
+    }
+    
+  
+  .logo-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #4f46e5 0%, #a855f7 100%);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+
+
+  .notification-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: inline-block;
+    vertical-align: middle;
+  }
+ 
+  .rounded-full {
+    border-radius: 9999px;
+  }
+  
+  .rounded-md {
+    border-radius: 6px;
+  }

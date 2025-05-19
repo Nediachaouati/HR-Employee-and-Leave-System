@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TimesheetService } from '../../services/timesheet.service';
-import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-timesheet-of-one-employee',
+  selector: 'app-my-timesheets',
   imports: [CommonModule],
-  templateUrl: './timesheet-of-one-employee.component.html',
-  styleUrl: './timesheet-of-one-employee.component.css'
+  templateUrl: './my-timesheets.component.html',
+  styleUrl: './my-timesheets.component.css'
 })
-export class TimesheetOfOneEmployeeComponent implements OnInit {
+export class MyTimesheetsComponent implements OnInit {
   timesheets: any[] = [];
   groupedTimesheets: any[] = []; // New variable to store the grouped timesheets
   todayTimesheet: any = null;    // Store today's timesheet

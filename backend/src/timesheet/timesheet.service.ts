@@ -81,4 +81,12 @@ export class TimesheetService {
   remove(id: number) {
     return `This action removes a #${id} timesheet`;
   }
+  async getTimesheetStats() {
+    return await this.timesheetRepository
+      .createQueryBuilder('timesheet')
+      .select('timesheet.status', 'status')
+      .addSelect('COUNT(*)', 'count')
+      .groupBy('timesheet.status')
+      .getRawMany();
+  }
 }

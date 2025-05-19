@@ -3,5 +3,6 @@ export class CreateUserDto {
   password: string;
   name?: string; 
   role?: string; 
+  photo?: string;
   secretKey?: string; 
 }

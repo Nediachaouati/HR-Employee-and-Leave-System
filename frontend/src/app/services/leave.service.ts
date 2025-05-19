@@ -1,12 +1,12 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LeaveService {
-  private apiUrl = 'http://localhost:3000/demand/mydemands';
+  private apiUrl = 'http://localhost:3000/demand';
 
 
   constructor(private http: HttpClient) {}
@@ -16,11 +16,11 @@ export class LeaveService {
       Authorization: `Bearer ${token}`
     });
   }
-  getMyDemands(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl,{ headers: this.getAuthHeaders() });
+  getMyDemands(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/mydemands`,{ headers: this.getAuthHeaders() });
   }
   createDemand(demand: any): Observable<any> {
-    return this.http.post('http://localhost:3000/demand', demand,{ headers: this.getAuthHeaders() });;
+    return this.http.post('http://localhost:3000/demand', demand,{ headers: this.getAuthHeaders() });
   }
   updateDemandStatus(demandId: number, newStatus: 'Approuvé' | 'Rejeté') {
     return this.http.put(`http://localhost:3000/demand/${demandId}/status`, { status: newStatus },{ headers: this.getAuthHeaders() });
@@ -28,5 +28,16 @@ export class LeaveService {
   getAllDemands(): Observable<any[]> {
     return this.http.get<any[]>('http://localhost:3000/demand',{ headers: this.getAuthHeaders() });
   }
+  getDemandsByType(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/stats/type`,{ headers: this.getAuthHeaders() });
+  }
+  getDemandsByMonth(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/stats/monthly`,{ headers: this.getAuthHeaders() });
+  }
+
+  getDemandsByStatus(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/stats/status`,{ headers: this.getAuthHeaders() });
+  }
+  
   
 }

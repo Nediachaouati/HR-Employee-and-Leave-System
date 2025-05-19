@@ -1,49 +1,47 @@
-<div class="container-fluid mt-5">
-  <h2 class="mb-4 text-primary">Leave Demands</h2>
+<div class="container-fluid mt-4 px-3">
+  <h2 class="mb-3 text-xl font-bold text-gray-900">Leave Demands</h2>
 
   <!-- Table with horizontal scrolling enabled -->
-  <div class="table-responsive" style="overflow-x: auto;">
-    <table class="table table-bordered table-hover w-100 shadow-sm rounded bg-white">
-      <thead class="table-dark text-center">
+  <div class="table-responsive shadow-md rounded-lg overflow-hidden">
+    <table class="table table-hover w-100 bg-white border-separate" style="border-spacing: 0;">
+      <thead class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-center">
         <tr>
-          <th>Start Date</th>
-          <th>End Date</th>
-          <th>Type</th>
-          <th>Status</th>
-          <th>Comments</th>
-          <th>Approved By</th>
-          <th>Created At</th>
-          <th>Updated At</th>
-          <th style="min-width: 250px;">Actions</th>
+          <th class="py-2 px-3 font-semibold text-xs">Start Date</th>
+          <th class="py-2 px-3 font-semibold text-xs">End Date</th>
+          <th class="py-2 px-3 font-semibold text-xs">Type</th>
+          <th class="py-2 px-3 font-semibold text-xs">Status</th>
+          <th class="py-2 px-3 font-semibold text-xs">Comments</th>
+          <th class="py-2 px-3 font-semibold text-xs">Created At</th>
+          <th class="py-2 px-3 font-semibold text-xs">Updated At</th>
+          <th class="py-2 px-3 font-semibold text-xs" style="min-width: 200px;">Actions</th>
         </tr>
       </thead>
 
-      <tbody class="align-middle text-center">
+      <tbody class="text-center text-gray-700">
         <ng-container *ngFor="let demand of demandes">
-          <tr>
-            <td>{{ demand.start_date | date:'yyyy-MM-dd' }}</td>
-            <td>{{ demand.end_date | date:'yyyy-MM-dd' }}</td>
-            <td>{{ demand.type }}</td>
-            <td>
+          <tr class="hover:bg-gray-50 transition-colors duration-200">
+            <td class="py-2 px-3 border-b border-gray-200 text-sm">{{ demand.start_date | date:'yyyy-MM-dd' }}</td>
+            <td class="py-2 px-3 border-b border-gray-200 text-sm">{{ demand.end_date | date:'yyyy-MM-dd' }}</td>
+            <td class="py-2 px-3 border-b border-gray-200 text-sm">{{ demand.type }}</td>
+            <td class="py-2 px-3 border-b border-gray-200">
               <span 
-                class="badge px-3 py-2 fs-6"
+                class="badge px-2 py-1 rounded-full font-medium text-xs"
                 [ngClass]="{
-                  'bg-warning text-dark': demand.status === 'En attente',
-                  'bg-danger': demand.status === 'Rejeté',
-                  'bg-success': demand.status === 'Approuvé'
+                  'text-warning': demand.status === 'En attente',
+                  'text-danger': demand.status === 'Rejeté',
+                  'text-success': demand.status === 'Approuvé'
                 }">
                 {{ demand.status }}
               </span>
             </td>
-            <td>{{ demand.comments }}</td>
-            <td>{{ demand.approvedById || 'Not approved yet' }}</td>
-            <td>{{ demand.created_at | date:'yyyy-MM-dd HH:mm' }}</td>
-            <td>{{ demand.updated_at | date:'yyyy-MM-dd HH:mm' }}</td>
-            <td>
-              <div class="d-flex flex-wrap gap-2 justify-content-center">
-                <button class="btn btn-success btn-sm px-3" (click)="updateStatus(demand.id, 'Approuvé')">Accept</button>
-                <button class="btn btn-danger btn-sm px-3" (click)="updateStatus(demand.id, 'Rejeté')">Decline</button>
-                <button class="btn btn-info btn-sm px-3" (click)="toggleDetails(demand.id)">
+            <td class="py-2 px-3 border-b border-gray-200 text-sm">{{ demand.comments }}</td>
+            <td class="py-2 px-3 border-b border-gray-200 text-sm">{{ demand.created_at | date:'yyyy-MM-dd HH:mm' }}</td>
+            <td class="py-2 px-3 border-b border-gray-200 text-sm">{{ demand.updated_at | date:'yyyy-MM-dd HH:mm' }}</td>
+            <td class="py-2 px-3 border-b border-gray-200">
+              <div class="d-flex flex-wrap gap-1 justify-content-center">
+                <button class="btn btn-success btn-xs px-3 py-1 rounded-md font-medium transition-all duration-200 hover:bg-green-600 hover:shadow-sm" (click)="updateStatus(demand.id, 'Approuvé')">Accept</button>
+                <button class="btn btn-danger btn-xs px-3 py-1 rounded-md font-medium transition-all duration-200 hover:bg-red-600 hover:shadow-sm" (click)="updateStatus(demand.id, 'Rejeté')">Decline</button>
+                <button class="btn btn-info btn-xs px-3 py-1 rounded-md font-medium transition-all duration-200 hover:bg-blue-500 hover:shadow-sm" (click)="toggleDetails(demand.id)">
                   {{ selectedDemandId === demand.id ? 'Hide Details' : 'Show More' }}
                 </button>
               </div>
@@ -51,28 +49,40 @@
           </tr>
 
           <!-- Row for the details -->
-          <tr *ngIf="selectedDemandId === demand.id">
-            <td colspan="9">
-              <div class="p-3 bg-light border rounded">
-                <h5 class="text-secondary">Demand Details:</h5>
-                <div class="row">
-                  <div class="col-md-4"><strong>Start Date:</strong> {{ demand.start_date }}</div>
-                  <div class="col-md-4"><strong>End Date:</strong> {{ demand.end_date }}</div>
-                  <div class="col-md-4"><strong>Type:</strong> {{ demand.type }}</div>
-                </div>
-                <div class="row mt-2">
-                  <div class="col-md-4"><strong>Status:</strong> {{ demand.status }}</div>
-                  <div class="col-md-4"><strong>Approved By:</strong> {{ demand.approvedById || 'Not approved yet' }}</div>
-                  <div class="col-md-4"><strong>Created At:</strong> {{ demand.created_at }}</div>
-                </div>
-                <div class="row mt-2">
-                  <div class="col-md-8"><strong>Comments:</strong> {{ demand.comments }}</div>
-                  <div class="col-md-4"><strong>Updated At:</strong> {{ demand.updated_at }}</div>
+          <tr *ngIf="selectedDemandId === demand.id" class="bg-gray-50">
+            <td colspan="9" class="p-3">
+              <div class="p-3 bg-white border border-gray-200 rounded-lg shadow-sm">
+                <h5 class="text-base font-semibold text-gray-800 mb-2">Demand Details</h5>
+                <div class="row g-2">
+                  <div class="col-md-4">
+                    <strong class="text-gray-600 text-sm">Start Date:</strong> <span class="text-sm">{{ demand.start_date }}</span>
+                  </div>
+                  <div class="col-md-4">
+                    <strong class="text-gray-600 text-sm">End Date:</strong> <span class="text-sm">{{ demand.end_date }}</span>
+                  </div>
+                  <div class="col-md-4">
+                    <strong class="text-gray-600 text-sm">Type:</strong> <span class="text-sm">{{ demand.type }}</span>
+                  </div>
+                  <div class="col-md-4">
+                    <strong class="text-gray-600 text-sm">Status:</strong> <span class="text-sm">{{ demand.status }}</span>
+                  </div>
+                  <div class="col-md-4">
+                    <strong class="text-gray-600 text-sm">Approved By:</strong> <span class="text-sm">{{ demand.approvedById || 'Not approved yet' }}</span>
+                  </div>
+                  <div class="col-md-4">
+                    <strong class="text-gray-600 text-sm">Created At:</strong> <span class="text-sm">{{ demand.created_at }}</span>
+                  </div>
+                  <div class="col-md-8">
+                    <strong class="text-gray-600 text-sm">Comments:</strong> <span class="text-sm">{{ demand.comments }}</span>
+                  </div>
+                  <div class="col-md-4">
+                    <strong class="text-gray-600 text-sm">Updated At:</strong> <span class="text-sm">{{ demand.updated_at }}</span>
+                  </div>
                 </div>
 
-                <div class="mt-3 d-flex gap-2">
-                  <button class="btn btn-success btn-sm px-3" (click)="updateStatus(demand.id, 'Approuvé')">Accept</button>
-                  <button class="btn btn-danger btn-sm px-3" (click)="updateStatus(demand.id, 'Rejeté')">Decline</button>
+                <div class="mt-3 d-flex gap-1">
+                  <button class="btn btn-success btn-xs px-3 py-1 rounded-md font-medium transition-all duration-200 hover:bg-green-600 hover:shadow-sm" (click)="updateStatus(demand.id, 'Approuvé')">Accept</button>
+                  <button class="btn btn-danger btn-xs px-3 py-1 rounded-md font-medium transition-all duration-200 hover:bg-red-600 hover:shadow-sm" (click)="updateStatus(demand.id, 'Rejeté')">Decline</button>
                 </div>
               </div>
             </td>
@@ -82,3 +92,138 @@
     </table>
   </div>
 </div>
+
+<style>
+/* Compact Table Styles */
+.container-fluid {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.table-responsive {
+  background: #ffffff;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+.table {
+  margin-bottom: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.table th, .table td {
+  vertical-align: middle;
+  font-size: 0.85rem;
+}
+
+.table th {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.table td {
+  color: #374151;
+}
+
+.table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.table tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+.badge {
+  font-size: 0.75rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 16px;
+  font-weight: 500;
+}
+
+.btn-xs {
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 6px;
+  padding: 0.4rem 0.75rem;
+  line-height: 1.2;
+  transition: all 0.2s ease;
+}
+
+.btn-success {
+  background-color: #22c55e;
+  border-color: #22c55e;
+  color: #ffffff;
+}
+
+.btn-success:hover {
+  background-color: #16a34a;
+  border-color: #16a34a;
+}
+
+.btn-danger {
+  background-color: #ef4444;
+  border-color: #ef4444;
+  color: #ffffff;
+}
+
+.btn-danger:hover {
+  background-color: #dc2626;
+  border-color: #dc2626;
+}
+
+.btn-info {
+  background-color: #3b82f6;
+  border-color: #3b82f6;
+  color: #ffffff;
+}
+
+.btn-info:hover {
+  background-color: #2563eb;
+  border-color: #2563eb;
+}
+
+.border-gray-200 {
+  border-color: #e5e7eb;
+}
+
+.text-gray-600 {
+  color: #4b5563;
+}
+
+.text-gray-700 {
+  color: #374151;
+}
+
+.text-gray-800 {
+  color: #1f2937;
+}
+
+.text-gray-900 {
+  color: #111827;
+}
+
+.rounded-lg {
+  border-radius: 8px;
+}
+
+.rounded-md {
+  border-radius: 6px;
+}
+
+.rounded-full {
+  border-radius: 9999px;
+}
+
+.shadow-md {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.shadow-sm {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.transition-all {
+  transition: all 0.2s ease;
+}
+</style>

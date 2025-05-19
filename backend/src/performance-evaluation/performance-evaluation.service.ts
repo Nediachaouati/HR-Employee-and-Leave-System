@@ -80,4 +80,13 @@ export class PerformanceEvaluationService {
       relations: ['employee', 'evaluator'],
     });
   }
+  async getEvaluationStatsByScore() {
+    return await this.performanceEvaluationRepository
+      .createQueryBuilder('evaluation')
+      .select('evaluation.overallScore', 'score')
+      .addSelect('COUNT(*)', 'count')
+      .groupBy('evaluation.overallScore')
+      .orderBy('evaluation.overallScore', 'ASC')
+      .getRawMany();
+  }
 } 

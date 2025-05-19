@@ -15,7 +15,6 @@ export class UsersService {
   ) {}
 
  
-  // Filtrer les utilisateurs par rôles (RH ou employe)
   async findUsersByRoles(roles: Role[], query: any): Promise<User[]> {
     return this.usersRepository.find({
       where: { role: In(roles) },
@@ -23,7 +22,6 @@ export class UsersService {
     });
   }
 
-  // Récupérer un utilisateur par ID
   async findOneById(id: number): Promise<User> {
     const user = await this.usersRepository.findOne({ where: { id } });
     if (!user) {
@@ -32,7 +30,6 @@ export class UsersService {
     return user;
   }
 
-  //rh update employe
   async updateEmployee(id: number, updateUserDto: UpdateUserDto, requesterRole: Role): Promise<User> {
     const user = await this.usersRepository.findOne({ where: { id } });
     if (!user) {
@@ -66,7 +63,7 @@ export class UsersService {
   }
 
 async createWithRole(dto: CreateUserDto, role: Role): Promise<{ user: User; plainPassword: string }> {
-  const { email, password, name } = dto;
+  const { email, password, name,photo } = dto;
 
   const salt = await bcrypt.genSalt();
   const hashedPassword = await bcrypt.hash(password, salt);
@@ -76,6 +73,7 @@ async createWithRole(dto: CreateUserDto, role: Role): Promise<{ user: User; plai
     password: hashedPassword,
     name,
     role: role,
+    photo, 
   });
 
   const newUser = await this.usersRepository.save(user);
@@ -87,7 +85,6 @@ async updateProfile(userId: number, updateUserDto: UpdateUserDto): Promise<User>
   Object.assign(user, updateUserDto);
   return await this.usersRepository.save(user);
 }
-  // rh delete employe
   async delete(id: number, requesterRole?: Role): Promise<void> {
     const user = await this.usersRepository.findOne({ where: { id } });
     if (!user) {

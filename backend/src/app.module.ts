@@ -15,6 +15,7 @@ import { typeormConfig } from './config/typeorm.config';
 import { DemandCongeModule } from './demand-conge/demand-conge.module';
 import { PerformanceEvaluationModule } from './performance-evaluation/performance-evaluation.module';
 import { TimesheetModule } from './timesheet/timesheet.module';
+import { NotificationModule } from './notification/notification.module';
 
 @Module({
   imports: [
@@ -47,7 +48,7 @@ import { TimesheetModule } from './timesheet/timesheet.module';
     }),
     
    
-     AuthModule, UsersModule, DemandCongeModule, PerformanceEvaluationModule, TimesheetModule],
+     AuthModule, UsersModule, DemandCongeModule, PerformanceEvaluationModule, TimesheetModule,NotificationModule],
   controllers: [AppController],
   providers: [
     AppService,{

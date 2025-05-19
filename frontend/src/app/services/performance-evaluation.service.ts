@@ -28,4 +28,10 @@ export class PerformanceEvaluationService {
   getEvaluationsByEmployeeId(employeeId: number) {
     return this.http.get<any[]>(`http://localhost:3000/performance-evaluation/employee/${employeeId}`,{ headers: this.getAuthHeaders() });
   }
+  getScoreStats(): Observable<any>{
+return this.http.get<any[]>(`${this.apiUrl}/stats/score`,{ headers: this.getAuthHeaders() });
+  }
+  deleteEvaluation(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`,{ headers: this.getAuthHeaders() });
+  }
 }

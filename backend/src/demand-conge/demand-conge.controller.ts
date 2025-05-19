@@ -17,7 +17,7 @@ export class DemandCongeController {
   @UseGuards(RolesGuard)
   @Roles(Role.EMPLOYE) 
   create(@Body() createDto: CreateDemandCongeDto, @Request() req) {
-    const user = req.user; // this comes from your JWT payload
+    const user = req.user; 
     return this.demandCongeService.create(createDto, user);
   }
 
@@ -53,17 +53,37 @@ export class DemandCongeController {
   remove(@Param('id') id: string, @CurrentUser() user: any) {
     return this.demandCongeService.remove(+id, user);
   }
-@Put(':id/status')
-@Roles(Role.RH) 
-async updateStatus(
-  @Param('id') id: number,
-  @Body('status') status: 'En attente' | 'Approuvé' | 'Rejeté',
-  @Request() req: any,
-) {
-  const user = req.user; // The user info from the token
+  @Put(':id/status')
+  @Roles(Role.RH)
+  async updateStatus(
+    @Param('id') id: number,
+    @Body('status') status: 'En attente' | 'Approuvé' | 'Rejeté',
+    @Request() req: any,
+  ): Promise<DemandConge> {
+    const user = req.user; 
 
+    const demand = await this.demandCongeService.updateStatus(id, status);
+    
+    
+    if (status === 'Approuvé' || status === 'Rejeté') {
+      demand.approvedById = user.id;
+      await this.demandCongeService.save(demand); // Save the updated demand
+    }
 
-  return this.demandCongeService.updateStatus(id, status);
-}
+    return demand;
+  }
+@Get('stats/type')
+  getStatsByType() {
+    return this.demandCongeService.getStatsByType();
+  }
 
+  @Get('stats/monthly')
+  getStatsMonthly() {
+    return this.demandCongeService.getStatsMonthly();
+  }
+
+  @Get('stats/status')
+  getStatsByStatus() {
+    return this.demandCongeService.getStatsByStatus();
+  }
 }
