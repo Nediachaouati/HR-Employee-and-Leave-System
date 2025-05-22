@@ -2,7 +2,7 @@ import { DemandConge } from "src/demand-conge/entities/demand-conge.entity";
 import { Notification } from "src/notification/entities/notification.entity";
 import { Role } from "src/role.enum";
 import { Timesheet } from "src/timesheet/entities/timesheet.entity";
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class User {
@@ -31,14 +31,20 @@ export class User {
     @OneToMany(() => DemandConge, (demand) => demand.user)
     leaveRequests: DemandConge[];
 
-    @OneToMany(() => Notification, (notification) => notification.user)
+    // @OneToMany(() => Notification, (notification) => notification.user)
+    // notifications: Notification[];
+
+    @OneToMany(() => Notification, (notification) => notification.demand, { onDelete: 'CASCADE' })
     notifications: Notification[];
-
-    @CreateDateColumn()
-    created_at:Date;
-
-    @UpdateDateColumn()
+  
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+    created_at: Date;
+  
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
     updated_at: Date;
+
+    @DeleteDateColumn()
+    deleted_at: Date;
 
 
   

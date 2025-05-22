@@ -12,7 +12,6 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 export class EvaluationsOneEmployeeComponent implements OnInit {
   employeeId!: number;
   evaluations: any[] = [];
-
   constructor(
     private route: ActivatedRoute,
     private evaluationService: PerformanceEvaluationService,
@@ -45,6 +44,7 @@ export class EvaluationsOneEmployeeComponent implements OnInit {
       });
     }
   }
+
   getEvaluations(): void {
     this.evaluationService.getEvaluationsByEmployeeId(this.employeeId)
       .subscribe({

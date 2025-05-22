@@ -21,3 +21,10 @@ height: 737px;
   .unread-notification {
     background-color: #f1f5f9; /* Tailwind gray-100 or any light gray */
   }
+  .sidebar {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* keeps it above other content */
+  }

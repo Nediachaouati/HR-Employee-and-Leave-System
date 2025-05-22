@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany } from 'typeorm';
 import { User } from '../users/entities/user.entity';
+import { IsOptional } from 'class-validator';
 
 export enum EvaluationStatus {
   DRAFT = 'DRAFT',
@@ -9,8 +10,10 @@ export enum EvaluationStatus {
 
 export enum EvaluationPeriod {
   QUARTERLY = 'QUARTERLY',
-  ANNUAL = 'ANNUAL'
+  ANNUAL = 'ANNUAL',
+  MONTHLY = 'MONTHLY'
 }
+
 
 @Entity()
 export class PerformanceEvaluation {
@@ -29,7 +32,12 @@ export class PerformanceEvaluation {
     default: EvaluationPeriod.ANNUAL
   })
   evaluationPeriod: EvaluationPeriod;
+  
 
+  @IsOptional()
+  @Column()
+  month?: number;
+  
   @Column()
   evaluationYear: number;
 

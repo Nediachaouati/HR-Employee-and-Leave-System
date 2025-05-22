@@ -14,6 +14,9 @@ import { EvaluationsOneEmployeeComponent } from './components/evaluations-one-em
 import { AddtimesheetComponent } from './components/addtimesheet/addtimesheet.component';
 import { TimesheetOfOneEmployeeComponent } from './components/timesheet-of-one-employee/timesheet-of-one-employee.component';
 import { MyTimesheetsComponent } from './components/my-timesheets/my-timesheets.component';
+import { CrudEmployeeComponent } from './components/crud-employee/crud-employee.component';
+import { AddEmployeeComponent } from './components/add-employee/add-employee.component';
+import { UpdateCongeComponent } from './components/update-conge/update-conge.component';
 
 export const routes: Routes = [
     {
@@ -22,6 +25,10 @@ export const routes: Routes = [
       },
       {
         path: 'home',
+        component: HomeComponentComponent,
+      },
+      {
+        path: 'statistics/:userId',
         component: HomeComponentComponent,
       },
       {
@@ -57,7 +64,9 @@ export const routes: Routes = [
       { path: 'addtimesheet', component: AddtimesheetComponent },
       { path: 'timesheet/:id', component: TimesheetOfOneEmployeeComponent }, 
       { path: 'mytimesheet/:id', component: MyTimesheetsComponent }, 
+      { path: 'crudemployee', component: CrudEmployeeComponent }, 
 
-
+      { path: 'add-employee', component: AddEmployeeComponent },
+      { path: 'update-conge/:id', component: UpdateCongeComponent },
     ];
 

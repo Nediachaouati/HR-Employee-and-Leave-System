@@ -28,7 +28,6 @@ export class TimesheetService {
       throw new Error('Timesheet not found');
     }
 
-    // Only RH can validate or reject
     if (user.role !== 'RH') {
       throw new Error('Only RH can validate or reject the timesheet');
     }

@@ -16,6 +16,7 @@ import { DemandCongeModule } from './demand-conge/demand-conge.module';
 import { PerformanceEvaluationModule } from './performance-evaluation/performance-evaluation.module';
 import { TimesheetModule } from './timesheet/timesheet.module';
 import { NotificationModule } from './notification/notification.module';
+import { StatisticsModule } from './statistics/statistics.module';
 
 @Module({
   imports: [
@@ -48,7 +49,7 @@ import { NotificationModule } from './notification/notification.module';
     }),
     
    
-     AuthModule, UsersModule, DemandCongeModule, PerformanceEvaluationModule, TimesheetModule,NotificationModule],
+     AuthModule, UsersModule, DemandCongeModule, PerformanceEvaluationModule, TimesheetModule,NotificationModule, StatisticsModule],
   controllers: [AppController],
   providers: [
     AppService,{

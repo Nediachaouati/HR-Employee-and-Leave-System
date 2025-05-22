@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Param, Put, Delete, UseGuards,Request, BadRequestException, InternalServerErrorException, Patch, ForbiddenException  } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Put, Delete, UseGuards,Request, BadRequestException, InternalServerErrorException, Patch, ForbiddenException, ParseIntPipe, Query  } from '@nestjs/common';
 import { DemandCongeService } from './demand-conge.service';
 import { DemandConge } from './entities/demand-conge.entity';
 import { Role } from 'src/role.enum';
@@ -41,18 +41,21 @@ export class DemandCongeController {
   findOne(@Param('id') id: string, @CurrentUser() user: any) {
     return this.demandCongeService.findOne(+id, user);
   }
-
+  @Delete(':id')
+  async deleteLeave(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    return this.demandCongeService.deleteleave(id);
+  }
   @Roles(Role.EMPLOYE) 
   @Put(':id')
   update(@Param('id') id: string, @Body() demand: Partial<DemandConge>, @CurrentUser() user: any) {
     return this.demandCongeService.update(+id, demand, user);
   }
 
-  @Roles(Role.EMPLOYE) 
-  @Delete(':id')
-  remove(@Param('id') id: string, @CurrentUser() user: any) {
-    return this.demandCongeService.remove(+id, user);
-  }
+  // @Roles(Role.EMPLOYE) 
+  // @Delete(':id')
+  // remove(@Param('id') id: string, @CurrentUser() user: any) {
+  //   return this.demandCongeService.remove(+id, user);
+  // }
   @Put(':id/status')
   @Roles(Role.RH)
   async updateStatus(
@@ -76,7 +79,12 @@ export class DemandCongeController {
   getStatsByType() {
     return this.demandCongeService.getStatsByType();
   }
-
+  @Get('demands/by-type')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  async getDemandsByType(@Query('year') year?: string) {
+    return this.demandCongeService.getDemandsByType(year ? +year : undefined);
+  }
   @Get('stats/monthly')
   getStatsMonthly() {
     return this.demandCongeService.getStatsMonthly();

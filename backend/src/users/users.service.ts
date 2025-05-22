@@ -93,7 +93,7 @@ async updateProfile(userId: number, updateUserDto: UpdateUserDto): Promise<User>
     if (requesterRole === Role.RH && user.role !== Role.EMPLOYE) {
       throw new ForbiddenException('Un RH ne peut supprimer que des employés');
     }
-    await this.usersRepository.delete(id);
+    await this.usersRepository.softDelete(id);
   }
   
   

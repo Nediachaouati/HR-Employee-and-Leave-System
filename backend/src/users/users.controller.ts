@@ -21,7 +21,6 @@ export class UsersController {
     private mailerService: MailerService,
   ) {}
 
-  // lister et filtrer uniquement les RH
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN)
   @Get('rh')
@@ -29,7 +28,6 @@ export class UsersController {
     return this.usersService.findUsersByRoles([Role.RH], query);  
   }
 
-  // lister et filtrer uniquement les employes
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN||Role.RH)
   @Get('employes')
@@ -47,7 +45,6 @@ export class UsersController {
     return user;
   }
 
-  //rh update employe
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.RH)
   @Put('employe/:id')
@@ -92,7 +89,6 @@ export class UsersController {
 }
 
 
-// rh add employe 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(Role.RH)
 @Post('add-employe')
@@ -122,7 +118,6 @@ async addEmployee(
   @Body() createUserDto: CreateUserDto,
   @UploadedFile() file: Express.Multer.File,
 ) {
-  // If a file is uploaded, add its path to the DTO
   if (file) {
     createUserDto.photo = `uploads/${file.filename}`;
   }
@@ -156,9 +151,8 @@ async addEmployee(
 async findOne(@Param('id') id: number): Promise<User> {
   return this.usersService.findOneById(+id);
 }
-  // rh delete user 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.RH)
+  @Roles(Role.RH,Role.ADMIN)
   @Delete(':id')
   async deleteUser(@Param('id') id: string, @CurrentUser() currentUser: User) {
     await this.usersService.delete(+id, currentUser.role);
