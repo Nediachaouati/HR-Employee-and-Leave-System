@@ -1,0 +1,173 @@
+<div class="sidebar-header p-4 d-flex align-items-center border-b border-gray-200">
+    <span class="ms-1">
+        <img src="https://cdn.vectorstock.com/i/1000v/15/16/document-page-logo-concept-vector-14051516.jpg" alt="DIGI-RH Logo" class="notification-icon">DIGI-RH
+    </span>
+</div>
+<div class="d-flex align-items-center justify-content-center min-vh-100" style="margin-top: -4%;">
+    <form #employeeForm="ngForm" class="form-signin w-50" (ngSubmit)="onSubmit(employeeForm)">
+        <h1 class="h3 mb-3 fw-normal text-center">Add New Employee</h1>
+
+        <!-- Name Field -->
+        <div class="form-floating mb-3">
+            <input 
+                type="text" 
+                [(ngModel)]="employee.name" 
+                class="form-control w-100" 
+                id="name" 
+                name="name" 
+                placeholder="Enter full name" 
+                required
+            >
+            <label for="name">Full Name</label>
+        </div>
+
+        <!-- Email Field -->
+        <div class="form-floating mb-3">
+            <input 
+                type="email" 
+                [(ngModel)]="employee.email" 
+                class="form-control w-100" 
+                id="email" 
+                name="email" 
+                placeholder="name@example.com" 
+                required
+            >
+            <label for="email">Email Address</label>
+        </div>
+
+        <!-- Password Field -->
+        <div class="form-floating mb-3">
+            <input 
+                type="password" 
+                [(ngModel)]="employee.password" 
+                class="form-control w-100" 
+                id="password" 
+                name="password" 
+                placeholder="Password" 
+                required
+            >
+            <label for="password">Password</label>
+        </div>
+
+        <div class="d-flex justify-content-between mb-3">
+            <a [routerLink]="['/crudemployee']" class="btn btn-outline-secondary w-45 py-2 no-underline">Cancel</a>
+            <button type="submit" class="btn btn-primary w-45 py-2 d-flex align-items-center justify-content-center gap-2">
+                <i class="fas fa-plus"></i> Add Employee
+            </button>
+        </div>
+
+        <p class="mt-5 mb-3 text-body-secondary text-center">© 2024 - 2025</p>
+    </form>
+</div>
+
+<style>
+.container-fluid {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+.sidebar-header {
+    background-color: #ffffff;
+}
+.notification-icon {
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+.border-gray-200 {
+    border-color: #e5e7eb;
+}
+.min-vh-100 {
+    min-height: 100vh;
+}
+.d-flex {
+    display: flex;
+}
+.align-items-center {
+    align-items: center;
+}
+.justify-content-center {
+    justify-content: center;
+}
+.justify-content-between {
+    justify-content: space-between;
+}
+.form-signin {
+    max-width: 400px;
+    width: 100%;
+}
+.form-control {
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    padding: 1rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.form-control:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 0.2rem rgba(79, 70, 229, 0.25);
+    outline: 0;
+}
+.form-floating > label {
+    padding: 1rem 0.75rem;
+    color: #6c757d;
+    font-size: 1rem;
+}
+.h3 {
+    font-size: 1.75rem;
+}
+.fw-normal {
+    font-weight: 400;
+}
+.mb-3 {
+    margin-bottom: 1rem;
+}
+.text-center {
+    text-align: center;
+}
+.text-body-secondary {
+    color: #6c757d;
+}
+.btn {
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    line-height: 1.5;
+}
+.btn-primary {
+    background-color: #4f46e5;
+    border-color: #4f46e5;
+    color: #ffffff;
+}
+.btn-primary:hover {
+    background-color: #4338ca;
+    border-color: #4338ca;
+}
+.btn-outline-secondary {
+    border-color: #6c757d;
+    color: #6c757d;
+}
+.btn-outline-secondary:hover {
+    background-color: #f8f9fa;
+    border-color: #6c757d;
+}
+.w-100 {
+    width: 100%;
+}
+.w-45 {
+    width: 48%;
+}
+.py-2 {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+.no-underline {
+    text-decoration: none;
+}
+.gap-2 {
+    gap: 0.5rem;
+}
+</style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />

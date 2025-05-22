@@ -58,15 +58,34 @@ export class DemandCongeService {
       relations: ['user'], 
     });
   }
-  async update(id: number, demand: Partial<DemandConge>, user: any): Promise<DemandConge> {
-    const existingDemand = await this.findOne(id, user); 
-    if (user.role === Role.EMPLOYE && existingDemand.userId !== user.id) {
-      throw new ForbiddenException('Vous ne pouvez modifier que vos propres demandes');
+  async update(id: number, demand: Partial<DemandConge>, user: User): Promise<DemandConge> {
+    const existingDemand = await this.findOne(id, user);
+    if (existingDemand.status !== 'En attente') {
+      throw new ForbiddenException('Cannot update approved or rejected leave requests');
     }
-    await this.demandCongeRepository.update(id, demand);
-    return this.findOne(id, user); 
+    Object.assign(existingDemand, demand);
+    return this.demandCongeRepository.save(existingDemand);
   }
+  async deleteleave(id: number): Promise<void> {
+    const demand = await this.demandCongeRepository.findOne({ where: { id } });
 
+    if (!demand) {
+      throw new NotFoundException(`Leave demand with ID ${id} not found`);
+    }
+
+    await this.demandCongeRepository.softDelete({ id });
+  }
+  async getDemandsByType(year?: number) {
+    const query = this.demandCongeRepository
+      .createQueryBuilder('demand')
+      .select('demand.type as type, COUNT(*) as count')
+      .where('demand.deleted_at IS NULL')
+      .groupBy('demand.type');
+    if (year) {
+      query.andWhere('YEAR(demand.start_date) = :year', { year });
+    }
+    return query.getRawMany();
+  }
   async remove(id: number, user: any): Promise<void> {
     const demand = await this.findOne(id, user); 
     if (user.role === Role.EMPLOYE && demand.userId !== user.id) {

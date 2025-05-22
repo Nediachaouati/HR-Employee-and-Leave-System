@@ -33,8 +33,11 @@ export class ListEmployeeComponent {
   viewTimesheet(employeeId: number) {
     this.router.navigate(['/timesheet', employeeId]);
   }
+
   
-  
+  viewStatistics(employeeId: number): void {
+    this.router.navigate(['/statistics', employeeId]);
+  }
   evaluateEmployee(employeeId: number): void {
     // Correct the navigation to pass the employeeId directly in the route array
     this.router.navigate(['/performance-evaluation', employeeId]);

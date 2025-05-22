@@ -1,6 +1,7 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { catchError, Observable, of, throwError } from 'rxjs';
+import { UpdateCongeComponent } from '../components/update-conge/update-conge.component';
 
 @Injectable({
   providedIn: 'root'
@@ -34,10 +35,48 @@ export class LeaveService {
   getDemandsByMonth(): Observable<any> {
     return this.http.get(`${this.apiUrl}/stats/monthly`,{ headers: this.getAuthHeaders() });
   }
+  updateDemand(id: number, demand: Partial<any>): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, demand, { headers: this.getAuthHeaders() }).pipe(
+      catchError(this.handleError)
+    );
+  }
 
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    let errorMessage = 'An error occurred. Please try again.';
+    if (error.error instanceof ErrorEvent) {
+      // Client-side error
+      errorMessage = error.error.message;
+    } else {
+      // Server-side error
+      errorMessage = error.error.message || `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    return throwError(() => new Error(errorMessage));
+  }
+  getDemandById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`, { headers: this.getAuthHeaders() }).pipe(catchError(this.handleError));
+  }
   getDemandsByStatus(): Observable<any> {
     return this.http.get(`${this.apiUrl}/stats/status`,{ headers: this.getAuthHeaders() });
   }
-  
-  
+  getLeaveRequests(type?: string, status?: string): Observable<any[]> {
+    let url = `${this.apiUrl}/filter`;
+    if (type || status) {
+      const params: string[] = [];
+      if (type) params.push(`type=${encodeURIComponent(type)}`);
+      if (status) params.push(`status=${encodeURIComponent(status)}`);
+      url += `?${params.join('&')}`;
+    }
+    return this.http.get<any[]>(url, { headers: this.getAuthHeaders() });
+  }
+
+  getLeaveRequest(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`, { headers: this.getAuthHeaders() });
+  }
+
+  updateLeaveRequest(id: number, data: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, data, { headers: this.getAuthHeaders() });
+  }
+  deleteleave(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`, { headers: this.getAuthHeaders() });
+  }
 }

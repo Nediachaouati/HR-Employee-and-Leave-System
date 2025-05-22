@@ -1,130 +1,214 @@
-
 <div class="container mt-5 dashboard-container">
   <div class="text-center mb-5">
-    <h2 class="text-gray-900 fw-bold">Dashboard Overview</h2>
+    <h2 class="text-gray-900 fw-bold">
+      {{ isGeneralStatistics ? 'Dashboard Overview' : 'Employee Statistics' }}
+    </h2>
+    <h4 *ngIf="!isGeneralStatistics" class="text-gray-700 mt-2">
+      {{ statistics?.employeeName }} (ID: {{ statistics?.employeeId }})
+    </h4>
   </div>
-  <div class="row gy-4">
-    <!-- Row 1: Demand by Type and Demand by Status -->
+
+  <div *ngIf="statistics || isGeneralStatistics" class="row gy-4">
+    <!-- Leave/Demand by Type -->
     <div class="col-md-6">
       <div class="card shadow-sm p-4 h-100 border-0">
-        <h5 class="text-center text-gray-900 mb-3 fw-semibold">Demands by Type</h5>
+        <h5 class="text-center text-gray-900 mb-3 fw-semibold">
+          {{ isGeneralStatistics ? 'Demands by Type' : 'Leaves by Type' }}
+        </h5>
         <div style="height: 300px;">
-          <canvas baseChart
-                  [data]="{
-                    labels: demandByTypeLabels,
-                    datasets: [{
-                      data: demandByTypeCounts,
-                      label: 'Demand Count',
-                      backgroundColor: ['#7C3AED', '#A855F7', '#D8B4FE', '#F3E8FF'],
-                      hoverBackgroundColor: ['#6D28D9', '#9333EA', '#C084FC', '#EDE9FE']
-                    }]
-                  }"
-                  [options]="{
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                      legend: { position: 'top', labels: { font: { size: 12, family: 'Inter' } } }
-                    },
-                    scales: {
-                      y: { beginAtZero: true, grid: { color: '#e5e7eb' } },
-                      x: { grid: { display: false } }
-                    }
-                  }"
-                  [type]="'bar'">
-          </canvas>
+          <canvas
+            baseChart
+            [data]="{
+              labels: isGeneralStatistics ? demandByTypeLabels : leaveTypeLabels,
+              datasets: [{
+                data: isGeneralStatistics ? demandByTypeCounts : leaveTypeCounts,
+                label: isGeneralStatistics ? 'Demand Count' : 'Leave Count',
+                backgroundColor: ['#7C3AED', '#A855F7', '#D8B4FE'],
+                hoverBackgroundColor: ['#6D28D9', '#9333EA', '#C084FC']
+              }]
+            }"
+            [options]="{
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { position: 'top', labels: { font: { size: 12, family: 'Inter' } } }
+              },
+              scales: {
+                y: { beginAtZero: true, grid: { color: '#e5e7eb' } },
+                x: { grid: { display: false } }
+              }
+            }"
+            [type]="'bar'"
+          ></canvas>
         </div>
       </div>
     </div>
 
+    <!-- Leave/Demand by Status -->
     <div class="col-md-6">
       <div class="card shadow-sm p-4 h-100 border-0">
-        <h5 class="text-center text-gray-900 mb-3 fw-semibold">Demands by Status</h5>
+        <h5 class="text-center text-gray-900 mb-3 fw-semibold">
+          {{ isGeneralStatistics ? 'Demands by Status' : 'Leaves by Status' }}
+        </h5>
         <div style="height: 300px;">
-          <canvas baseChart
-                  [data]="{
-                    labels: demandByStatusLabels,
-                    datasets: [{
-                      data: demandByStatusCounts,
-                      backgroundColor: ['#7C3AED', '#FBBF24', '#EF4444'],
-                      hoverBackgroundColor: ['#6D28D9', '#F59E0B', '#DC2626']
-                    }]
-                  }"
-                  [options]="{
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                      legend: { position: 'top', labels: { font: { size: 12, family: 'Inter' } } }
-                    }
-                  }"
-                  [type]="'pie'">
-          </canvas>
+          <canvas
+            baseChart
+            [data]="{
+              labels: isGeneralStatistics ? demandByStatusLabels : leaveStatusLabels,
+              datasets: [{
+                data: isGeneralStatistics ? demandByStatusCounts : leaveStatusCounts,
+                backgroundColor: ['#7C3AED', '#FBBF24', '#EF4444'],
+                hoverBackgroundColor: ['#6D28D9', '#F59E0B', '#DC2626']
+              }]
+            }"
+            [options]="{
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { position: 'top', labels: { font: { size: 12, family: 'Inter' } } }
+              }
+            }"
+            [type]="'pie'"
+          ></canvas>
         </div>
       </div>
     </div>
 
-    <!-- Row 2: Demand by Month -->
+    <!-- Demand by Month (General Only) -->
+    <div class="col-md-6" *ngIf="isGeneralStatistics">
+      <div class="card shadow-sm p-4 h-100 border-0">
+        <h5 class="text-center text-gray-900 mb-3 fw-semibold">Demands by Month</h5>
+        <div style="height: 300px;">
+          <canvas
+            baseChart
+            [data]="{
+              labels: demandByMonthLabels,
+              datasets: [{
+                data: demandByMonthCounts,
+                label: 'Demand Count',
+                backgroundColor: ['#7C3AED'],
+                hoverBackgroundColor: ['#6D28D9']
+              }]
+            }"
+            [options]="{
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { position: 'top', labels: { font: { size: 12, family: 'Inter' } } }
+              },
+              scales: {
+                y: { beginAtZero: true, grid: { color: '#e5e7eb' } },
+                x: { grid: { display: false } }
+              }
+            }"
+            [type]="'bar'"
+          ></canvas>
+        </div>
+      </div>
+    </div>
 
-
-  <!-- Timesheet by Status and Performance by Score -->
-  <div class="row gy-4 mt-4">
-    <!-- Timesheet by Status Chart -->
-    <div class="col-md-6">
+    <!-- Timesheet Statistics -->
+    <div class="col-md-6" [ngClass]="{'col-md-12': !isGeneralStatistics}">
       <div class="card p-4 shadow-sm border-0">
-        <h5 class="text-center text-gray-900 mb-3 fw-semibold">Timesheet by Status</h5>
-        <canvas
-          baseChart
-          [data]="{
-            labels: demandByStatusLabels,
-            datasets: [{ 
-              data: demandByStatusCounts, 
-              label: 'Status', 
-              backgroundColor: ['#7C3AED', '#FBBF24', '#EF4444'],
-              hoverBackgroundColor: ['#6D28D9', '#F59E0B', '#DC2626']
-            }]
-          }"
-          [options]="{
-            responsive: true,
-            plugins: {
-              legend: { position: 'top', labels: { font: { size: 12, family: 'Inter' } } }
-            },
-            scales: {
-              y: { beginAtZero: true, grid: { color: '#e5e7eb' } },
-              x: { grid: { display: false } }
-            }
-          }"
-          [type]="'bar'">
-        </canvas>
+        <h5 class="text-center text-gray-900 mb-3 fw-semibold">
+          {{ isGeneralStatistics ? 'Timesheet by Status' : 'Timesheet Statistics' }}
+        </h5>
+        <div style="height: 300px;">
+          <canvas
+            baseChart
+            [data]="{
+              labels: isGeneralStatistics ? timesheetByStatusLabels : timesheetStatsLabels,
+              datasets: [{
+                data: isGeneralStatistics ? timesheetByStatusCounts : timesheetStatsCounts,
+                label: isGeneralStatistics ? 'Status' : 'Hours',
+                backgroundColor: ['#7C3AED', '#FBBF24'],
+                hoverBackgroundColor: ['#6D28D9', '#F59E0B']
+              }]
+            }"
+            [options]="{
+              responsive: true,
+              plugins: {
+                legend: { position: 'top', labels: { font: { size: 12, family: 'Inter' } } }
+              },
+              scales: {
+                y: { beginAtZero: true, grid: { color: '#e5e7eb' } },
+                x: { grid: { display: false } }
+              }
+            }"
+            [type]="'bar'"
+          ></canvas>
+        </div>
       </div>
     </div>
 
-    <!-- Performance by Score Chart -->
-    <div class="col-md-6">
+    <!-- Performance Statistics -->
+    <div class="col-md-6" *ngIf="isGeneralStatistics">
       <div class="card p-4 shadow-sm border-0">
         <h5 class="text-center text-gray-900 mb-3 fw-semibold">Performance by Score</h5>
-        <canvas
-          baseChart
-          [data]="{
-            labels: evaluationScoreLabels,
-            datasets: [{ 
-              data: evaluationScoreCounts, 
-              label: 'Evaluations', 
-              backgroundColor: ['#7C3AED', '#A855F7', '#D8B4FE', '#F3E8FF', '#FBBF24'],
-              hoverBackgroundColor: ['#6D28D9', '#9333EA', '#C084FC', '#EDE9FE', '#F59E0B']
-            }]
-          }"
-          [options]="{
-            responsive: true,
-            plugins: {
-              legend: { position: 'top', labels: { font: { size: 12, family: 'Inter' } } }
-            },
-            scales: {
-              y: { beginAtZero: true, grid: { color: '#e5e7eb' } },
-              x: { grid: { display: false } }
-            }
-          }"
-          [type]="'bar'">
-        </canvas>
+        <div style="height: 300px;">
+          <canvas
+            baseChart
+            [data]="{
+              labels: evaluationScoreLabels,
+              datasets: [{
+                data: evaluationScoreCounts,
+                label: 'Evaluations',
+                backgroundColor: ['#7C3AED', '#A855F7', '#D8B4FE', '#F3E8FF', '#FBBF24'],
+                hoverBackgroundColor: ['#6D28D9', '#9333EA', '#C084FC', '#EDE9FE', '#F59E0B']
+              }]
+            }"
+            [options]="{
+              responsive: true,
+              plugins: {
+                legend: { position: 'top', labels: { font: { size: 12, family: 'Inter' } } }
+              },
+              scales: {
+                y: { beginAtZero: true, grid: { color: '#e5e7eb' } },
+                x: { grid: { display: false } }
+              }
+            }"
+            [type]="'bar'"
+          ></canvas>
+        </div>
       </div>
+    </div>
+
+    <!-- Performance Score (Employee Only) -->
+    <div class="col-md-6" *ngIf="!isGeneralStatistics">
+      <div class="card p-4 shadow-sm border-0">
+        <h5 class="text-center text-gray-900 mb-3 fw-semibold">Performance Score</h5>
+        <div style="height: 300px;">
+          <canvas
+            baseChart
+            [data]="{
+              labels: performanceScoreLabels,
+              datasets: [{
+                data: performanceScoreCounts,
+                label: 'Score',
+                backgroundColor: ['#7C3AED'],
+                hoverBackgroundColor: ['#6D28D9']
+              }]
+            }"
+            [options]="{
+              responsive: true,
+              plugins: {
+                legend: { position: 'top', labels: { font: { size: 12, family: 'Inter' } } }
+              },
+              scales: {
+                y: { beginAtZero: true, grid: { color: '#e5e7eb' }, max: 5 },
+                x: { grid: { display: false } }
+              }
+            }"
+            [type]="'bar'"
+          ></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!statistics && !isGeneralStatistics" class="text-center py-4">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
     </div>
   </div>
 </div>
@@ -133,7 +217,7 @@
 /* Dashboard Styles */
 .dashboard-container {
   font-family: 'Inter', sans-serif;
-  background: #f9fafb; /* Light gray background */
+  background: #f9fafb;
   padding: 2rem;
   border-radius: 12px;
 }
@@ -150,7 +234,7 @@
 
 h5 {
   font-size: 1.1rem;
-  color: #111827; /* Gray-900 */
+  color: #111827;
 }
 
 canvas {

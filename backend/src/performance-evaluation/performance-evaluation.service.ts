@@ -1,7 +1,7 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { PerformanceEvaluation } from './performance-evaluation.entity';
+import { EvaluationPeriod, PerformanceEvaluation } from './performance-evaluation.entity';
 import { CreatePerformanceEvaluationDto } from './dto/create-performance-evaluation.dto';
 import { UpdatePerformanceEvaluationDto } from './dto/update-performance-evaluation.dto';
 import { User } from '../users/entities/user.entity';
@@ -16,22 +16,41 @@ export class PerformanceEvaluationService {
   ) {}
 
   async create(createDto: CreatePerformanceEvaluationDto, evaluatorId: number) {
+    // Check if an annual evaluation for the employee and year already exists
+    if (createDto.evaluationPeriod === EvaluationPeriod.ANNUAL) {
+      const existingEvaluation = await this.performanceEvaluationRepository.findOne({
+        where: {
+          employee: { id: createDto.employeeId },
+          evaluationYear: createDto.evaluationYear,
+          evaluationPeriod: EvaluationPeriod.ANNUAL,
+        },
+      });
+  
+      if (existingEvaluation) {
+        throw new BadRequestException(
+          `An annual evaluation for employee ID ${createDto.employeeId} in ${createDto.evaluationYear} already exists.`,
+        );
+      }
+    }
+  
+    // Existing logic to fetch employee and evaluator
     const employee = await this.userRepository.findOne({ where: { id: createDto.employeeId } });
     if (!employee) {
       throw new NotFoundException('Employee not found');
     }
-
+  
     const evaluator = await this.userRepository.findOne({ where: { id: evaluatorId } });
     if (!evaluator) {
       throw new NotFoundException('Evaluator not found');
     }
-
+  
+    // Create and save the evaluation
     const evaluation = this.performanceEvaluationRepository.create({
       ...createDto,
       employee,
       evaluator,
     });
-
+  
     return this.performanceEvaluationRepository.save(evaluation);
   }
 

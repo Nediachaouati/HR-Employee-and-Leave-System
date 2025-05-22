@@ -34,7 +34,10 @@ getProfile(): Observable<User> {
   }
 
   updateUser(id: string, user: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${id}`, user);
+    return this.http.put(`${this.apiUrl}/${id}`, user,{ headers: this.getAuthHeaders() });
+  }
+  addemployee(user: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/add-employe`, user,{ headers: this.getAuthHeaders() });
   }
 
   deleteUser(id: number): Observable<any> {

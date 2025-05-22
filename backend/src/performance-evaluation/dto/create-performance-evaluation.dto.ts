@@ -1,4 +1,4 @@
-import { IsEnum, IsNumber, IsString, IsOptional, Min, Max } from 'class-validator';
+import { IsEnum, IsNumber, IsString, IsOptional, Min, Max, IsInt } from 'class-validator';
 import { EvaluationPeriod, EvaluationStatus } from '../performance-evaluation.entity';
 
 export class CreatePerformanceEvaluationDto {
@@ -14,6 +14,12 @@ export class CreatePerformanceEvaluationDto {
   @IsEnum(EvaluationStatus)
   @IsOptional()
   status?: EvaluationStatus;
+
+  @IsInt()
+  @Min(1)
+  @Max(12)
+  @IsOptional()
+  month?: number;
 
   @IsNumber()
   @Min(0)
